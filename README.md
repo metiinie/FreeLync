@@ -479,14 +479,12 @@ npx supabase functions logs payment-chapa --follow
 
 MIT License - see LICENSE file for details
 
-## 🎉 Next Steps
+## 🎉 Next Time if I want push easy commands
 
-1. **Read**: This README thoroughly
-2. **Run**: Database SQL migration in Supabase dashboard
-3. **Deploy**: Functions using deployment script
-4. **Configure**: Webhooks in payment gateways
-5. **Test**: Make a payment
-6. **Deploy**: To production!
+git add .
+git commit -m "Add: new feature XYZ"
+
+git push origin main
 
 ---
 
