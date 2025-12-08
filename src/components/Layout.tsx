@@ -11,7 +11,7 @@ const Layout = () => {
   const { isAuthenticated } = useAuth();
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[#F8FAFC]">
       {/* Desktop Layout */}
       <div className="hidden lg:flex">
         {/* Left Sidebar */}
@@ -61,7 +61,7 @@ const Layout = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+              className="fixed inset-0 bg-black/40 z-40 lg:hidden"
               onClick={() => setSidebarOpen(false)}
             />
             <motion.div
@@ -69,7 +69,7 @@ const Layout = () => {
               animate={{ x: 0 }}
               exit={{ x: -300 }}
               transition={{ type: 'tween', duration: 0.3 }}
-              className="fixed left-0 top-0 h-full w-72 bg-white shadow-xl z-50 lg:hidden"
+              className="fixed left-0 top-0 h-full w-72 bg-white/80 backdrop-blur-md shadow-soft border border-border/60 z-50 lg:hidden"
             >
               <Sidebar onClose={() => setSidebarOpen(false)} />
             </motion.div>

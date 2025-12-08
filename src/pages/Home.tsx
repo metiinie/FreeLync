@@ -100,7 +100,7 @@ const Home: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+    <div className="min-h-screen bg-[#F8FAFC]">
       {/* Hero Section */}
       <div className="relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
@@ -141,7 +141,7 @@ const Home: React.FC = () => {
               transition={{ duration: 0.8, delay: 0.4 }}
               className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12"
             >
-              <Button asChild size="xl" variant="gold" className="group">
+              <Button asChild size="xl" variant="default" className="group">
                 <Link to="/buy">
                   <ShoppingCart className="mr-2 h-5 w-5" />
                   BUY
@@ -157,7 +157,7 @@ const Home: React.FC = () => {
                 </Link>
               </Button>
 
-              <Button asChild size="xl" variant="navy" className="group">
+              <Button asChild size="xl" variant="default" className="group">
                 <Link to="/sell">
                   <Building className="mr-2 h-5 w-5" />
                   SELL
@@ -177,7 +177,7 @@ const Home: React.FC = () => {
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
                 <Input
                   placeholder="Search for cars, houses, land..."
-                  className="pl-10 pr-4 py-3 text-lg border-2 border-gray-200 focus:border-[#F5B700] rounded-full"
+                  className="pl-10 pr-4 py-3 text-lg rounded-full"
                 />
                 <Button className="absolute right-2 top-1/2 transform -translate-y-1/2 rounded-full">
                   Search
@@ -263,7 +263,7 @@ const Home: React.FC = () => {
             <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-8">
               Discover the most popular and verified listings on our platform
             </p>
-            <Button asChild size="lg" className="bg-blue-600 hover:bg-blue-700">
+            <Button asChild size="lg">
               <Link to="/buy">
                 <Search className="mr-2 h-4 w-4" />
                 Browse All Listings
@@ -280,7 +280,7 @@ const Home: React.FC = () => {
           >
             {featuredListings.map((listing) => (
               <motion.div key={listing.id} variants={itemVariants}>
-                <Card className="group hover:shadow-xl transition-all duration-300 overflow-hidden">
+                <Card className="group hover:shadow-glow transition-transform duration-300 overflow-hidden hover:-translate-y-1">
                   <div className="relative">
                     <img
                       src={listing.images[0]?.url || '/placeholder-image.jpg'}
@@ -430,7 +430,7 @@ const Home: React.FC = () => {
       </div>
 
       {/* CTA Section */}
-      <div className="py-20 bg-gradient-to-r from-[#0B132B] to-[#1a2332]">
+      <div className="py-20 bg-brand-gradient">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -444,13 +444,13 @@ const Home: React.FC = () => {
               Join thousands of verified users who trust SebahLync for their buying, renting, and selling needs.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button asChild size="lg" variant="gold">
+              <Button asChild size="lg" variant="glass" className="text-foreground">
                 <Link to="/register">
                   Get Started Now
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
-              <Button asChild size="lg" variant="outline" className="text-white border-white hover:bg-white hover:text-[#0B132B]">
+              <Button asChild size="lg" variant="default">
                 <Link to="/about">
                   Learn More
                 </Link>

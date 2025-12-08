@@ -37,14 +37,14 @@ const Header = ({ onMenuClick }: HeaderProps) => {
   };
 
   return (
-    <header className="bg-white border-b border-gray-200 sticky top-0 z-30">
+    <header className="sticky top-0 z-30 backdrop-blur-md bg-white/70 border-b border-border/60 shadow-sm">
       <div className="px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Left side */}
           <div className="flex items-center space-x-4">
             <button
               onClick={onMenuClick}
-              className="p-2 rounded-lg hover:bg-gray-100 transition-colors lg:hidden"
+              className="p-2 rounded-xl hover:bg-muted/60 transition-colors lg:hidden"
             >
               <Menu className="w-5 h-5 text-gray-600" />
             </button>
@@ -56,7 +56,7 @@ const Header = ({ onMenuClick }: HeaderProps) => {
                 <input
                   type="text"
                   placeholder="Search listings..."
-                  className="pl-10 pr-4 py-2 w-64 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="pl-10 pr-4 py-2 w-64 border border-input rounded-xl bg-white/70 backdrop-blur-sm focus:ring-2 focus:ring-primary focus:border-transparent"
                 />
               </div>
             </div>
@@ -65,7 +65,7 @@ const Header = ({ onMenuClick }: HeaderProps) => {
           {/* Right side */}
           <div className="flex items-center space-x-4">
             {/* Search button for mobile */}
-            <button className="p-2 rounded-lg hover:bg-gray-100 transition-colors md:hidden">
+            <button className="p-2 rounded-xl hover:bg-muted/60 transition-colors md:hidden">
               <Search className="w-5 h-5 text-gray-600" />
             </button>
 
@@ -74,7 +74,7 @@ const Header = ({ onMenuClick }: HeaderProps) => {
               <div className="relative">
                 <button
                   onClick={() => setShowNotifications(!showNotifications)}
-                  className="p-2 rounded-lg hover:bg-gray-100 transition-colors relative"
+                  className="p-2 rounded-xl hover:bg-muted/60 transition-colors relative"
                 >
                   <Bell className="w-5 h-5 text-gray-600" />
                   {unreadCount > 0 && (
@@ -90,9 +90,9 @@ const Header = ({ onMenuClick }: HeaderProps) => {
                       initial={{ opacity: 0, y: -10, scale: 0.95 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: -10, scale: 0.95 }}
-                      className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg border border-gray-200 z-50"
+                      className="absolute right-0 mt-2 w-80 bg-white/80 backdrop-blur-md rounded-xl shadow-soft border border-border/60 z-50"
                     >
-                      <div className="p-4 border-b border-gray-200">
+                      <div className="p-4 border-b border-border/60">
                         <h3 className="text-lg font-semibold text-gray-900">Notifications</h3>
                       </div>
                       <div className="max-h-96 overflow-y-auto">
@@ -100,7 +100,7 @@ const Header = ({ onMenuClick }: HeaderProps) => {
                           notifications.slice(0, 5).map((notification) => (
                             <div
                               key={notification.id}
-                              className={`p-4 border-b border-gray-100 hover:bg-gray-50 cursor-pointer ${
+                              className={`p-4 border-b border-gray-100 hover:bg-muted/60 cursor-pointer ${
                                 !notification.read ? 'bg-blue-50' : ''
                               }`}
                             >
@@ -130,7 +130,7 @@ const Header = ({ onMenuClick }: HeaderProps) => {
                         )}
                       </div>
                       {notifications.length > 5 && (
-                        <div className="p-4 border-t border-gray-200">
+                        <div className="p-4 border-t border-border/60">
                           <button className="text-sm text-blue-600 hover:text-blue-700 font-medium">
                             View all notifications
                           </button>
@@ -147,9 +147,9 @@ const Header = ({ onMenuClick }: HeaderProps) => {
               <div className="relative">
                 <button
                   onClick={() => setShowUserMenu(!showUserMenu)}
-                  className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors"
+                  className="flex items-center space-x-2 p-2 rounded-xl hover:bg-muted/60 transition-colors"
                 >
-                  <div className="w-8 h-8 rounded-full flex items-center justify-center overflow-hidden bg-gradient-to-br from-blue-500 to-blue-600">
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center overflow-hidden bg-gradient-to-br from-indigo-600 to-cyan-400">
                     {user?.avatar_url && !avatarError ? (
                       <img 
                         src={user.avatar_url} 
@@ -174,7 +174,7 @@ const Header = ({ onMenuClick }: HeaderProps) => {
                       initial={{ opacity: 0, y: -10, scale: 0.95 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: -10, scale: 0.95 }}
-                      className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-50"
+                      className="absolute right-0 mt-2 w-48 bg-white/80 backdrop-blur-md rounded-xl shadow-soft border border-border/60 z-50"
                     >
                       <div className="py-2">
                         <button
@@ -182,7 +182,7 @@ const Header = ({ onMenuClick }: HeaderProps) => {
                             navigate('/profile');
                             setShowUserMenu(false);
                           }}
-                          className="flex items-center space-x-2 w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                          className="flex items-center space-x-2 w-full px-4 py-2 text-sm text-gray-700 hover:bg-muted/60"
                         >
                           <User className="w-4 h-4" />
                           <span>Profile</span>
@@ -192,7 +192,7 @@ const Header = ({ onMenuClick }: HeaderProps) => {
                             navigate('/dashboard');
                             setShowUserMenu(false);
                           }}
-                          className="flex items-center space-x-2 w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                          className="flex items-center space-x-2 w-full px-4 py-2 text-sm text-gray-700 hover:bg-muted/60"
                         >
                           <Home className="w-4 h-4" />
                           <span>Dashboard</span>
@@ -202,7 +202,7 @@ const Header = ({ onMenuClick }: HeaderProps) => {
                             navigate('/sell');
                             setShowUserMenu(false);
                           }}
-                          className="flex items-center space-x-2 w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                          className="flex items-center space-x-2 w-full px-4 py-2 text-sm text-gray-700 hover:bg-muted/60"
                         >
                           <Plus className="w-4 h-4" />
                           <span>Sell/Rent</span>
@@ -212,7 +212,7 @@ const Header = ({ onMenuClick }: HeaderProps) => {
                             navigate('/profile?tab=settings');
                             setShowUserMenu(false);
                           }}
-                          className="flex items-center space-x-2 w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                          className="flex items-center space-x-2 w-full px-4 py-2 text-sm text-gray-700 hover:bg-muted/60"
                         >
                           <Settings className="w-4 h-4" />
                           <span>Settings</span>
@@ -240,7 +240,7 @@ const Header = ({ onMenuClick }: HeaderProps) => {
                 </button>
                 <button
                   onClick={() => navigate('/register')}
-                  className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors"
+                  className="px-4 py-2 text-sm font-medium rounded-xl btn-gradient"
                 >
                   Sign Up
                 </button>

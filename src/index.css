@@ -1,3 +1,24 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  html {
+    font-family: theme('fontFamily.sans');
+    color: theme('colors.foreground');
+    background-color: theme('colors.background');
+  }
+
+  :root {
+    --radius: 1rem;
+  }
+}
+
+@layer components {
+  .glass {
+    @apply backdrop-blur-md bg-white/60 border border-border/60 shadow-soft rounded-xl;
+  }
+  .btn-gradient {
+    @apply bg-brand-gradient text-white shadow-soft hover:shadow-glow transition-shadow;
+  }
+}
