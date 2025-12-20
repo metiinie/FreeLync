@@ -1,4 +1,4 @@
-# SebahLync - Real Estate Marketplace
+# SebahLync - buy , sell, rent your property in once
 
 A modern, full-stack real estate marketplace built with React, TypeScript, and Supabase, featuring secure payment processing with Chapa, Telebirr, and Bibit payment gateways.
 
