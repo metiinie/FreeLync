@@ -1,6 +1,6 @@
-# SebahLync - buy , sell, rent your property in once
+# SebahLync -buy, sell rent your property in once without a  broker, middleman or agent
 
-A modern, full-stack real estate marketplace built with React, TypeScript, and Supabase, featuring secure payment processing with Chapa, Telebirr, and Bibit payment gateways.
+A modern, full-stack  marketplace built with React, TypeScript, and Supabase, featuring secure payment processing with Chapa, Telebirr, and Bibit payment gateways.
 
 ## 🚀 Quick Start
 
