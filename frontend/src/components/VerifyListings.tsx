@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { 
-  Home, 
-  CheckCircle, 
-  XCircle, 
-  Clock, 
-  Search, 
-  Download, 
+import {
+  Home,
+  CheckCircle,
+  XCircle,
+  Clock,
+  Search,
+  Download,
   RefreshCw,
   Eye,
   MapPin,
@@ -60,21 +60,21 @@ const VerifyListings: React.FC<VerifyListingsProps> = ({
 
   const filteredListings = listings
     .filter(listing => {
-      const matchesSearch = searchTerm === '' || 
+      const matchesSearch = searchTerm === '' ||
         listing.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         listing.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
         listing.location?.city.toLowerCase().includes(searchTerm.toLowerCase()) ||
         listing.owner?.full_name.toLowerCase().includes(searchTerm.toLowerCase());
-      
+
       const matchesType = filterType === 'all' || listing.type === filterType;
       const matchesCategory = filterCategory === 'all' || listing.category === filterCategory;
-      
+
       return matchesSearch && matchesType && matchesCategory;
     })
     .sort((a, b) => {
       const aValue = a[sortBy as keyof Listing];
       const bValue = b[sortBy as keyof Listing];
-      
+
       if (sortOrder === 'asc') {
         return aValue > bValue ? 1 : -1;
       } else {
@@ -83,8 +83,8 @@ const VerifyListings: React.FC<VerifyListingsProps> = ({
     });
 
   const handleSelectListing = (listingId: string) => {
-    setSelectedListings(prev => 
-      prev.includes(listingId) 
+    setSelectedListings(prev =>
+      prev.includes(listingId)
         ? prev.filter(id => id !== listingId)
         : [...prev, listingId]
     );
@@ -115,10 +115,10 @@ const VerifyListings: React.FC<VerifyListingsProps> = ({
   };
 
   const handleExport = () => {
-    const csvData = filteredListings.map(listing => 
+    const csvData = filteredListings.map(listing =>
       `${listing.title},${listing.type},${listing.category},${listing.price},${listing.status},${listing.verified},${listing.is_active},${listing.owner?.full_name || ''},${listing.location?.city || ''}`
     ).join('\n');
-    
+
     const blob = new Blob([csvData], { type: 'text/csv' });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -126,7 +126,7 @@ const VerifyListings: React.FC<VerifyListingsProps> = ({
     a.download = 'pending-listings.csv';
     a.click();
     window.URL.revokeObjectURL(url);
-    
+
     toast.success('Listings exported successfully');
   };
 
@@ -337,7 +337,7 @@ const VerifyListings: React.FC<VerifyListingsProps> = ({
                       onChange={() => handleSelectListing(listing.id)}
                       className="mt-1"
                     />
-                    
+
                     <div className="w-32 h-32 bg-gray-200 rounded-lg flex items-center justify-center overflow-hidden">
                       {listing.images?.[0]?.url ? (
                         <img
@@ -349,7 +349,7 @@ const VerifyListings: React.FC<VerifyListingsProps> = ({
                         <ImageIcon className="h-12 w-12 text-gray-500" />
                       )}
                     </div>
-                    
+
                     <div className="flex-1">
                       <div className="flex items-start justify-between mb-4">
                         <div>
@@ -363,12 +363,12 @@ const VerifyListings: React.FC<VerifyListingsProps> = ({
                               {listing.category}
                             </Badge>
                           </div>
-                          
+
                           <div className="flex items-center text-gray-600 mb-2">
                             <MapPin className="h-4 w-4 mr-1" />
                             <span>{listing.location?.city || 'Unknown'}, {listing.location?.subcity || 'Unknown'}</span>
                           </div>
-                          
+
                           <div className="flex items-center text-gray-600 mb-2">
                             <Calendar className="h-4 w-4 mr-1" />
                             <span>Posted {formatRelativeTime(listing.created_at)}</span>
@@ -381,7 +381,7 @@ const VerifyListings: React.FC<VerifyListingsProps> = ({
                             </div>
                           )}
                         </div>
-                        
+
                         <div className="text-right">
                           <div className="text-2xl font-bold text-[#0B132B] mb-2">
                             {formatPrice(listing.price, listing.currency)}
@@ -396,28 +396,28 @@ const VerifyListings: React.FC<VerifyListingsProps> = ({
 
                       {/* Property Details */}
                       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
-                        {listing.bedrooms && (
+                        {listing.features?.bedrooms && (
                           <div className="flex items-center text-sm text-gray-600">
                             <Bed className="h-4 w-4 mr-1" />
-                            <span>{listing.bedrooms} bed{listing.bedrooms > 1 ? 's' : ''}</span>
+                            <span>{listing.features.bedrooms} bed{listing.features.bedrooms > 1 ? 's' : ''}</span>
                           </div>
                         )}
-                        {listing.bathrooms && (
+                        {listing.features?.bathrooms && (
                           <div className="flex items-center text-sm text-gray-600">
                             <Bath className="h-4 w-4 mr-1" />
-                            <span>{listing.bathrooms} bath{listing.bathrooms > 1 ? 's' : ''}</span>
+                            <span>{listing.features.bathrooms} bath{listing.features.bathrooms > 1 ? 's' : ''}</span>
                           </div>
                         )}
-                        {listing.area && (
+                        {listing.features?.area && (
                           <div className="flex items-center text-sm text-gray-600">
                             <Square className="h-4 w-4 mr-1" />
-                            <span>{listing.area} sqft</span>
+                            <span>{listing.features.area} sqft</span>
                           </div>
                         )}
-                        {listing.year_built && (
+                        {listing.features?.year && (
                           <div className="flex items-center text-sm text-gray-600">
                             <Calendar className="h-4 w-4 mr-1" />
-                            <span>Built {listing.year_built}</span>
+                            <span>Built {listing.features.year}</span>
                           </div>
                         )}
                       </div>
@@ -459,7 +459,7 @@ const VerifyListings: React.FC<VerifyListingsProps> = ({
                             </div>
                           )}
                         </div>
-                        
+
                         <div className="flex space-x-3">
                           <Button
                             variant="outline"

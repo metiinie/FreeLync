@@ -16,6 +16,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { useNotifications } from '../contexts/NotificationContext';
 import { useTheme } from '../contexts/ThemeContext';
 import { useNavigate } from 'react-router-dom';
+import logoImage from './Images/Logo.png';
 
 interface HeaderProps {
   onMenuClick: () => void;
@@ -52,6 +53,12 @@ const Header = ({ onMenuClick }: HeaderProps) => {
             >
               <Menu className="w-5 h-5 text-gray-600" />
             </button>
+
+            {/* Logo on mobile/small screens */}
+            <div className="flex items-center space-x-2 md:hidden">
+              <img src={logoImage} alt="FreeLync" className="w-8 h-8 object-contain" />
+              <span className="font-bold text-gray-900 dark:text-white">FreeLync</span>
+            </div>
 
             {/* Search */}
             <div className="hidden md:block">

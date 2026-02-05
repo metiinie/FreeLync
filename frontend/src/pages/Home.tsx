@@ -26,7 +26,7 @@ import { ListingsService } from '../services/listings';
 import { api, endpoints } from '../services/api';
 import { Listing, User as UserType } from '../types';
 import { formatPrice, formatRelativeTime, getCategoryIcon } from '../lib/utils';
-import logoImage from '../components/Images/FreeLync__logo.png';
+import logoImage from '../components/Images/Logo.png';
 
 const Home: React.FC = () => {
   const [featuredListings, setFeaturedListings] = useState<Listing[]>([]);

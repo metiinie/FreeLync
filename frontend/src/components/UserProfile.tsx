@@ -33,7 +33,9 @@ import {
   Smartphone,
   ShieldCheck,
   AlertTriangle,
-  HelpCircle
+  HelpCircle,
+  Home,
+  Plus
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { Button } from './ui/button';
@@ -212,14 +214,14 @@ const UserProfile: React.FC<UserProfileProps> = ({
   return (
     <div className="max-w-6xl mx-auto space-y-8 pb-32">
       {/* Premium Profile Header */}
-      <div className="relative bg-white dark:bg-slate-900 rounded-[2rem] shadow-soft dark:shadow-2xl border border-gray-100 dark:border-slate-800 overflow-hidden text-gray-900 dark:text-white">
+      <div className="relative bg-white dark:bg-gray-900 rounded-[2rem] shadow-soft dark:shadow-2xl border border-gray-100 dark:border-gray-800 overflow-hidden text-gray-900 dark:text-white">
         <div className="h-48 bg-brand-gradient"></div>
         <div className="px-10 pb-10">
           <div className="flex flex-col md:flex-row md:items-end -mt-16 space-y-6 md:space-y-0 md:space-x-8">
             <div className="relative group" ref={avatarMenuRef}>
               <div
                 onClick={isOwnProfile ? () => setShowAvatarMenu(!showAvatarMenu) : undefined}
-                className="w-40 h-40 rounded-[2.5rem] border-8 border-white dark:border-slate-900 bg-white dark:bg-slate-900 shadow-2xl overflow-hidden cursor-pointer relative"
+                className="w-40 h-40 rounded-[2.5rem] border-8 border-white dark:border-gray-900 bg-white dark:bg-gray-900 shadow-2xl overflow-hidden cursor-pointer relative"
               >
                 {profileUser.avatar_url && !avatarError ? (
                   <img src={profileUser.avatar_url} alt="" className="w-full h-full object-cover transition-transform group-hover:scale-110" onError={() => setAvatarError(true)} />
@@ -242,8 +244,8 @@ const UserProfile: React.FC<UserProfileProps> = ({
 
               <AnimatePresence>
                 {showAvatarMenu && (
-                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 10 }} className="absolute top-full left-0 mt-4 w-56 bg-white dark:bg-slate-800 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-gray-100 dark:border-slate-700 z-50 py-3">
-                    <button onClick={handlePhotoClick} className="w-full flex items-center px-5 py-3 hover:bg-gray-50 dark:hover:bg-slate-700 text-sm text-gray-700 dark:text-gray-300 transition-colors"><Camera className="w-4 h-4 mr-3 text-blue-500" /> Change Photo</button>
+                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 10 }} className="absolute top-full left-0 mt-4 w-56 bg-white dark:bg-gray-800 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-gray-100 dark:border-gray-700 z-50 py-3">
+                    <button onClick={handlePhotoClick} className="w-full flex items-center px-5 py-3 hover:bg-gray-50 dark:hover:bg-gray-700 text-sm text-gray-700 dark:text-gray-300 transition-colors"><Camera className="w-4 h-4 mr-3 text-blue-500" /> Change Photo</button>
                     {profileUser.avatar_url && <button onClick={handleRemovePhoto} className="w-full flex items-center px-5 py-3 hover:bg-red-50 dark:hover:bg-red-950/30 text-sm text-red-600 font-bold transition-colors"><Trash2 className="w-4 h-4 mr-3" /> Remove Photo</button>}
                   </motion.div>
                 )}
@@ -268,7 +270,7 @@ const UserProfile: React.FC<UserProfileProps> = ({
 
             <div className="flex md:self-center gap-3">
               {isOwnProfile ? (
-                <Button onClick={() => handleTabChange('settings')} variant="outline" className="rounded-2xl h-14 px-8 border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white hover:border-blue-200 dark:hover:border-blue-800 hover:bg-blue-50/30 dark:hover:bg-blue-900/10 font-bold shadow-sm">
+                <Button onClick={() => handleTabChange('settings')} variant="outline" className="rounded-2xl h-14 px-8 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white hover:border-blue-200 dark:hover:border-blue-800 hover:bg-blue-50/30 dark:hover:bg-blue-900/10 font-bold shadow-sm">
                   <Settings className="w-5 h-5 mr-2 text-gray-400" /> Profile Settings
                 </Button>
               ) : (
@@ -281,7 +283,7 @@ const UserProfile: React.FC<UserProfileProps> = ({
         </div>
 
         {/* Dynamic Tabs */}
-        <div className="flex gap-10 px-10 border-t border-gray-100 dark:border-slate-800 overflow-x-auto no-scrollbar">
+        <div className="flex gap-10 px-10 border-t border-gray-100 dark:border-gray-800 overflow-x-auto no-scrollbar">
           {[
             { id: 'overview', label: 'Overview', icon: TrendingUp },
             { id: 'listings', label: 'My Listings', icon: Home },

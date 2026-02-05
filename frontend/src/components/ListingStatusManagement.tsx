@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { 
-  Home, 
-  CheckCircle, 
-  XCircle, 
-  Clock, 
-  Search, 
-  Filter, 
-  Download, 
+import {
+  Home,
+  CheckCircle,
+  XCircle,
+  Clock,
+  Search,
+  Filter,
+  Download,
   RefreshCw,
   Eye,
   Edit,
@@ -17,9 +17,7 @@ import {
   Star,
   AlertTriangle,
   CheckCircle2,
-  Clock3,
   Ban,
-  HomeIcon,
   TrendingUp,
   DollarSign,
   Users,
@@ -65,22 +63,22 @@ const ListingStatusManagement: React.FC<ListingStatusManagementProps> = ({
 
   const filteredListings = listings
     .filter(listing => {
-      const matchesSearch = searchTerm === '' || 
+      const matchesSearch = searchTerm === '' ||
         listing.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         listing.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
         listing.location?.city.toLowerCase().includes(searchTerm.toLowerCase()) ||
         listing.owner?.full_name.toLowerCase().includes(searchTerm.toLowerCase());
-      
+
       const matchesStatus = filterStatus === 'all' || listing.status === filterStatus;
       const matchesType = filterType === 'all' || listing.type === filterType;
       const matchesCategory = filterCategory === 'all' || listing.category === filterCategory;
-      
+
       return matchesSearch && matchesStatus && matchesType && matchesCategory;
     })
     .sort((a, b) => {
       const aValue = a[sortBy as keyof Listing];
       const bValue = b[sortBy as keyof Listing];
-      
+
       if (sortOrder === 'asc') {
         return aValue > bValue ? 1 : -1;
       } else {
@@ -89,8 +87,8 @@ const ListingStatusManagement: React.FC<ListingStatusManagementProps> = ({
     });
 
   const handleSelectListing = (listingId: string) => {
-    setSelectedListings(prev => 
-      prev.includes(listingId) 
+    setSelectedListings(prev =>
+      prev.includes(listingId)
         ? prev.filter(id => id !== listingId)
         : [...prev, listingId]
     );
@@ -143,10 +141,10 @@ const ListingStatusManagement: React.FC<ListingStatusManagementProps> = ({
   };
 
   const handleExport = () => {
-    const csvData = filteredListings.map(listing => 
+    const csvData = filteredListings.map(listing =>
       `${listing.title},${listing.type},${listing.category},${listing.price},${listing.status},${listing.verified},${listing.is_active},${listing.owner?.full_name || ''},${listing.location?.city || ''}`
     ).join('\n');
-    
+
     const blob = new Blob([csvData], { type: 'text/csv' });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -154,7 +152,7 @@ const ListingStatusManagement: React.FC<ListingStatusManagementProps> = ({
     a.download = 'listings.csv';
     a.click();
     window.URL.revokeObjectURL(url);
-    
+
     toast.success('Listings exported successfully');
   };
 
@@ -192,7 +190,7 @@ const ListingStatusManagement: React.FC<ListingStatusManagementProps> = ({
       case 'inactive':
         return <Ban className="h-4 w-4" />;
       default:
-        return <Clock3 className="h-4 w-4" />;
+        return <Clock className="h-4 w-4" />;
     }
   };
 
@@ -419,7 +417,7 @@ const ListingStatusManagement: React.FC<ListingStatusManagementProps> = ({
                         onChange={() => handleSelectListing(listing.id)}
                         className="mt-1"
                       />
-                      
+
                       <div className="w-16 h-16 bg-gray-200 rounded-lg flex items-center justify-center overflow-hidden">
                         {listing.images?.[0]?.url ? (
                           <img
@@ -431,7 +429,7 @@ const ListingStatusManagement: React.FC<ListingStatusManagementProps> = ({
                           <ImageIcon className="h-8 w-8 text-gray-500" />
                         )}
                       </div>
-                      
+
                       <div className="flex-1">
                         <div className="flex items-center space-x-2 mb-1">
                           <h3 className="font-medium text-gray-900">{listing.title}</h3>
@@ -455,7 +453,7 @@ const ListingStatusManagement: React.FC<ListingStatusManagementProps> = ({
                             </Badge>
                           )}
                         </div>
-                        
+
                         <div className="flex items-center space-x-4 text-sm text-gray-600 mb-2">
                           <div className="flex items-center">
                             <DollarSign className="h-4 w-4 mr-1" />
@@ -476,22 +474,22 @@ const ListingStatusManagement: React.FC<ListingStatusManagementProps> = ({
                             <Home className="h-4 w-4 mr-1" />
                             {listing.category}
                           </span>
-                          {listing.bedrooms && (
+                          {listing.features?.bedrooms && (
                             <span className="flex items-center">
                               <Users className="h-4 w-4 mr-1" />
-                              {listing.bedrooms} bed
+                              {listing.features.bedrooms} bed
                             </span>
                           )}
-                          {listing.bathrooms && (
+                          {listing.features?.bathrooms && (
                             <span className="flex items-center">
                               <Users className="h-4 w-4 mr-1" />
-                              {listing.bathrooms} bath
+                              {listing.features.bathrooms} bath
                             </span>
                           )}
-                          {listing.area && (
+                          {listing.features?.area && (
                             <span className="flex items-center">
                               <TrendingUp className="h-4 w-4 mr-1" />
-                              {listing.area} sqft
+                              {listing.features.area} sqft
                             </span>
                           )}
                         </div>

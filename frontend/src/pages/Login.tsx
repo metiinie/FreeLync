@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Eye, EyeOff, Mail, Lock } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import logoImage from '../components/Images/Logo.png';
 
 const loginSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
@@ -59,8 +60,8 @@ const Login = () => {
         className="sm:mx-auto sm:w-full sm:max-w-md"
       >
         <div className="text-center">
-          <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-blue-800 rounded-lg flex items-center justify-center mx-auto mb-4">
-            <span className="text-white font-bold text-2xl">S</span>
+          <div className="w-20 h-20 bg-white dark:bg-gray-800 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-sm border border-gray-100 dark:border-gray-700">
+            <img src={logoImage} alt="FreeLync Logo" className="w-16 h-16 object-contain" />
           </div>
           <h2 className="text-3xl font-bold text-gray-900 dark:text-white">Welcome back</h2>
           <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">

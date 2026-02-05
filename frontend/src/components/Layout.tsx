@@ -72,7 +72,7 @@ const Layout = () => {
               animate={{ x: 0 }}
               exit={{ x: -300 }}
               transition={{ type: 'tween', duration: 0.3 }}
-              className="fixed left-0 top-0 h-full w-72 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md shadow-soft border border-border/60 dark:border-slate-800 z-50 lg:hidden"
+              className="fixed left-0 top-0 h-full w-72 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md shadow-soft border border-border/60 dark:border-gray-800 z-50 lg:hidden"
             >
               <Sidebar onClose={() => setSidebarOpen(false)} />
             </motion.div>

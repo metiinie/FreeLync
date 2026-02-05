@@ -10,7 +10,7 @@ import {
     MapPin,
     ArrowRight
 } from 'lucide-react';
-import logoImage from './Images/FreeLync__logo.png';
+import logoImage from './Images/Logo.png';
 
 const Footer = () => {
     const currentYear = new Date().getFullYear();
