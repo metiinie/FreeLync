@@ -1,0 +1,222 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  buyer
+  seller
+  admin
+}
+
+enum ListingCategory {
+  car
+  house
+  land
+  commercial
+  other
+}
+
+enum ListingType {
+  sale
+  rent
+}
+
+enum ListingStatus {
+  pending
+  approved
+  rejected
+  sold
+  rented
+  inactive
+}
+
+enum TransactionStatus {
+  pending
+  payment_initiated
+  payment_completed
+  escrowed
+  released
+  refunded
+  cancelled
+  disputed
+  paid
+}
+
+enum PaymentMethod {
+  telebirr
+  chapa
+  bibit
+}
+
+enum NotificationType {
+  listing_approved
+  listing_rejected
+  payment_received
+  escrow_released
+  user_verified
+  user_rejected
+  transaction_completed
+  transaction_cancelled
+  dispute_initiated
+  system_announcement
+  system_message
+}
+
+enum NotificationPriority {
+  low
+  medium
+  high
+  urgent
+}
+
+model User {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  password      String
+  full_name     String
+  phone         String?
+  role          UserRole  @default(buyer)
+  verified      Boolean   @default(false)
+  avatar_url    String?
+  address       Json?
+  bank_details  Json?
+  rating        Json      @default("{\"average\": 0, \"count\": 0}")
+  is_active     Boolean   @default(true)
+  last_login    DateTime?
+  preferences   Json      @default("{\"notifications\": {\"email\": true, \"sms\": false, \"push\": true}, \"language\": \"en\", \"dark_mode\": false}")
+  
+  listings      Listing[] @relation("UserListings")
+  buys          Transaction[] @relation("BuyerTransactions")
+  sells         Transaction[] @relation("SellerTransactions")
+  notifications Notification[]
+  favorites     Favorite[]
+  inquiries     Inquiry[]
+
+  created_at    DateTime  @default(now())
+  updated_at    DateTime  @updatedAt
+
+  @@map("users")
+}
+
+model Listing {
+  id                String          @id @default(uuid())
+  title             String
+  description       String
+  category          ListingCategory
+  subcategory       String?
+  price             Float
+  currency          String          @default("ETB")
+  type              ListingType
+  rent_period       String?
+  location          Json
+  images            Json
+  documents         Json            @default("[]")
+  features          Json            @default("{}")
+  
+  owner_id          String
+  owner             User            @relation("UserListings", fields: [owner_id], references: [id])
+  
+  status            ListingStatus   @default(pending)
+  verified          Boolean         @default(false)
+  verification_notes String?
+  views             Int             @default(0)
+  tags              String[]        @default([])
+  is_active         Boolean         @default(true)
+  expires_at        DateTime?
+  
+  transactions      Transaction[]
+  favorites         Favorite[]
+  inquiries         Inquiry[]
+
+  created_at        DateTime        @default(now())
+  updated_at        DateTime        @updatedAt
+
+  @@map("listings")
+}
+
+model Transaction {
+  id              String            @id @default(uuid())
+  listing_id      String
+  listing         Listing           @relation(fields: [listing_id], references: [id])
+  
+  buyer_id        String
+  buyer           User              @relation("BuyerTransactions", fields: [buyer_id], references: [id])
+  
+  seller_id       String
+  seller          User              @relation("SellerTransactions", fields: [seller_id], references: [id])
+  
+  amount          Float
+  currency        String            @default("ETB")
+  commission      Json
+  payment_method  PaymentMethod
+  payment_details Json              @default("{}")
+  
+  status          TransactionStatus @default(pending)
+  escrow          Json              @default("{\"is_escrowed\": false}")
+  contract        Json              @default("{}")
+  delivery        Json              @default("{}")
+  dispute         Json              @default("{\"is_disputed\": false}")
+  refund          Json              @default("{}")
+  timeline        Json              @default("[]")
+  metadata        Json              @default("{}")
+
+  created_at      DateTime          @default(now())
+  updated_at      DateTime          @updatedAt
+
+  @@map("transactions")
+}
+
+model Notification {
+  id          String               @id @default(uuid())
+  user_id     String
+  user        User                 @relation(fields: [user_id], references: [id])
+  
+  type        NotificationType
+  title       String
+  message     String
+  data        Json?
+  priority    NotificationPriority @default(medium)
+  channels    Json                 @default("{\"in_app\": true, \"email\": true, \"sms\": false, \"push\": true}")
+  status      String               @default("pending")
+  read        Boolean              @default(false)
+  read_at     DateTime?
+  sent_at     DateTime?
+  delivered_at DateTime?
+  expires_at  DateTime?
+  metadata    Json                 @default("{\"retry_count\": 0}")
+
+  created_at  DateTime             @default(now())
+  updated_at  DateTime             @updatedAt
+
+  @@map("notifications")
+}
+
+model Favorite {
+  id          String   @id @default(uuid())
+  user_id     String
+  user        User     @relation(fields: [user_id], references: [id])
+  listing_id  String
+  listing     Listing  @relation(fields: [listing_id], references: [id])
+  created_at  DateTime @default(now())
+
+  @@unique([user_id, listing_id])
+  @@map("favorites")
+}
+
+model Inquiry {
+  id          String   @id @default(uuid())
+  user_id     String
+  user        User     @relation(fields: [user_id], references: [id])
+  listing_id  String
+  listing     Listing  @relation(fields: [listing_id], references: [id])
+  message     String
+  contact     String?
+  created_at  DateTime @default(now())
+
+  @@map("inquiries")
+}
