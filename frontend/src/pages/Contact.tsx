@@ -68,8 +68,8 @@ const Contact = () => {
         {/* Contact Info Column */}
         <div className="space-y-8">
           <div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Get in Touch</h2>
-            <p className="text-gray-600 mb-8">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Get in Touch</h2>
+            <p className="text-gray-600 dark:text-gray-400 mb-8">
               Whether you're a buyer, seller, or just curious about our platform, we'd love to hear from you.
               Our dedicated support team is ready to assist you.
             </p>
@@ -83,28 +83,28 @@ const Contact = () => {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className="flex items-start p-4 rounded-xl border border-gray-100 bg-white shadow-sm hover:shadow-md transition-all group"
+                className="flex items-start p-4 rounded-xl border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-800 shadow-sm hover:shadow-md transition-all group"
               >
-                <div className="bg-blue-50 p-3 rounded-lg mr-4 group-hover:bg-blue-600 transition-colors">
-                  <item.icon className="w-5 h-5 text-blue-600 group-hover:text-white" />
+                <div className="bg-blue-50 dark:bg-blue-900/30 p-3 rounded-lg mr-4 group-hover:bg-blue-600 transition-colors">
+                  <item.icon className="w-5 h-5 text-blue-600 dark:text-blue-400 group-hover:text-white" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900">{item.title}</h3>
-                  <p className="text-blue-600 font-medium">{item.content}</p>
-                  <p className="text-xs text-gray-400 mt-1">{item.description}</p>
+                  <h3 className="font-semibold text-gray-900 dark:text-white">{item.title}</h3>
+                  <p className="text-blue-600 dark:text-blue-400 font-medium">{item.content}</p>
+                  <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">{item.description}</p>
                 </div>
               </motion.a>
             ))}
           </div>
 
           <div>
-            <h3 className="font-semibold text-gray-900 mb-4">Follow Us</h3>
+            <h3 className="font-semibold text-gray-900 dark:text-white mb-4">Follow Us</h3>
             <div className="flex space-x-4">
               {socialLinks.map((social) => (
                 <a
                   key={social.name}
                   href={social.href}
-                  className="p-3 rounded-full bg-gray-100 text-gray-600 hover:bg-blue-600 hover:text-white transition-all shadow-sm"
+                  className="p-3 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-blue-600 hover:text-white transition-all shadow-sm"
                   aria-label={social.name}
                 >
                   <social.icon className="w-5 h-5" />
@@ -119,54 +119,54 @@ const Contact = () => {
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-white p-8 rounded-2xl border border-gray-100 shadow-xl"
+            className="bg-white dark:bg-gray-800 p-8 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-xl"
           >
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Send us a Message</h2>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Send us a Message</h2>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700">Full Name</label>
+                  <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Full Name</label>
                   <Input
                     required
                     placeholder="Enter your name"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="rounded-xl border-gray-200 focus:ring-blue-500"
+                    className="rounded-xl border-gray-200 dark:border-gray-700 dark:bg-gray-900 dark:text-white focus:ring-blue-500"
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700">Email Address</label>
+                  <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Email Address</label>
                   <Input
                     required
                     type="email"
                     placeholder="name@example.com"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="rounded-xl border-gray-200 focus:ring-blue-500"
+                    className="rounded-xl border-gray-200 dark:border-gray-700 dark:bg-gray-900 dark:text-white focus:ring-blue-500"
                   />
                 </div>
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">Subject</label>
+                <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Subject</label>
                 <Input
                   required
                   placeholder="How can we help you?"
                   value={formData.subject}
                   onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                  className="rounded-xl border-gray-200 focus:ring-blue-500"
+                  className="rounded-xl border-gray-200 dark:border-gray-700 dark:bg-gray-900 dark:text-white focus:ring-blue-500"
                 />
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">Message</label>
+                <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Message</label>
                 <textarea
                   required
                   rows={6}
                   placeholder="Tell us more about your inquiry..."
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none resize-none"
+                  className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 dark:bg-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none resize-none"
                 />
               </div>
 
@@ -190,15 +190,15 @@ const Contact = () => {
       </div>
 
       {/* FAQ CTA */}
-      <div className="mt-16 bg-blue-50 rounded-2xl p-8 text-center border border-blue-100">
+      <div className="mt-16 bg-blue-50 dark:bg-gray-800 rounded-2xl p-8 text-center border border-blue-100 dark:border-gray-700">
         <div className="flex items-center justify-center mb-4">
-          <MessageCircle className="w-10 h-10 text-blue-600" />
+          <MessageCircle className="w-10 h-10 text-blue-600 dark:text-blue-400" />
         </div>
-        <h3 className="text-xl font-bold text-gray-900 mb-2">Check our Help Center</h3>
-        <p className="text-gray-600 mb-6">
+        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Check our Help Center</h3>
+        <p className="text-gray-600 dark:text-gray-400 mb-6">
           You might find the answer you're looking for in our Frequently Asked Questions section.
         </p>
-        <Button variant="outline" className="rounded-xl border-blue-200 text-blue-600 hover:bg-blue-100" onClick={() => window.location.href = '/faq'}>
+        <Button variant="outline" className="rounded-xl border-blue-200 dark:border-gray-700 text-blue-600 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-gray-700" onClick={() => window.location.href = '/faq'}>
           Go to FAQs
         </Button>
       </div>

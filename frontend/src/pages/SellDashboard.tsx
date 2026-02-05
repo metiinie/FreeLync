@@ -29,8 +29,11 @@ const SellDashboard: React.FC = () => {
       navigate('/login', { state: { from: '/sell' } });
       return;
     }
+    if (showWizard) {
+      return;
+    }
     loadListings();
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated, navigate, showWizard]);
 
   // Debug: Track listings state changes
   useEffect(() => {
@@ -92,24 +95,24 @@ const SellDashboard: React.FC = () => {
     try {
       const response = await ListingsService.deleteListing(listingId);
       console.log('📡 Delete response:', response);
-      
+
       if (response.success) {
         console.log('✅ Delete successful, updating UI state');
         toast.success('Listing deleted successfully');
-        
+
         // Update local state immediately for better UX
         const updatedListings = listings.filter(listing => listing.id !== listingId);
         console.log('📈 Updated listings count:', updatedListings.length);
         console.log('🆔 Updated listings IDs:', updatedListings.map(l => l.id));
-        
+
         setListings(updatedListings);
         calculateStats(updatedListings);
-        
+
         // Notify other dashboards to refresh their data
-        window.dispatchEvent(new CustomEvent('listingDeleted', { 
-          detail: { listingId, deletedAt: new Date().toISOString() } 
+        window.dispatchEvent(new CustomEvent('listingDeleted', {
+          detail: { listingId, deletedAt: new Date().toISOString() }
         }));
-        
+
         console.log('🎉 Delete process completed successfully');
       } else {
         console.error('❌ Delete failed:', response.message);
@@ -142,11 +145,11 @@ const SellDashboard: React.FC = () => {
 
   if (showWizard) {
     return (
-      <div className="min-h-screen bg-gray-50">
-        <div className="bg-white border-b">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+        <div className="bg-white dark:bg-gray-900 border-b dark:border-gray-800 backdrop-blur-md bg-white/70 dark:bg-gray-900/70">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <div className="flex items-center justify-between">
-              <h1 className="text-2xl font-bold text-gray-900">Create New Listing</h1>
+              <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Create New Listing</h1>
               <Button
                 variant="outline"
                 onClick={() => setShowWizard(false)}
@@ -165,14 +168,14 @@ const SellDashboard: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
       {/* Header */}
-      <div className="bg-white border-b">
+      <div className="bg-white dark:bg-gray-900 border-b dark:border-gray-800 backdrop-blur-md bg-white/70 dark:bg-gray-900/70 sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Sell Dashboard</h1>
-              <p className="text-gray-600 mt-1">Manage your property listings</p>
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Sell Dashboard</h1>
+              <p className="text-gray-600 dark:text-gray-400 mt-1">Manage your property listings</p>
             </div>
             <Button
               onClick={() => setShowWizard(true)}
@@ -188,57 +191,57 @@ const SellDashboard: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <Card>
+          <Card className="dark:bg-gray-800 dark:border-gray-700">
             <CardContent className="p-6">
               <div className="flex items-center">
-                <div className="p-2 bg-blue-100 rounded-lg">
-                  <List className="w-6 h-6 text-blue-600" />
+                <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+                  <List className="w-6 h-6 text-blue-600 dark:text-blue-400" />
                 </div>
                 <div className="ml-4">
-                  <p className="text-sm font-medium text-gray-600">Total Listings</p>
-                  <p className="text-2xl font-bold text-gray-900">{stats.total}</p>
+                  <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Total Listings</p>
+                  <p className="text-2xl font-bold text-gray-900 dark:text-white">{stats.total}</p>
                 </div>
               </div>
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="dark:bg-gray-800 dark:border-gray-700">
             <CardContent className="p-6">
               <div className="flex items-center">
-                <div className="p-2 bg-green-100 rounded-lg">
-                  <CheckCircle className="w-6 h-6 text-green-600" />
+                <div className="p-2 bg-green-100 dark:bg-green-900/30 rounded-lg">
+                  <CheckCircle className="w-6 h-6 text-green-600 dark:text-green-400" />
                 </div>
                 <div className="ml-4">
-                  <p className="text-sm font-medium text-gray-600">Active</p>
-                  <p className="text-2xl font-bold text-gray-900">{stats.active}</p>
+                  <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Active</p>
+                  <p className="text-2xl font-bold text-gray-900 dark:text-white">{stats.active}</p>
                 </div>
               </div>
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="dark:bg-gray-800 dark:border-gray-700">
             <CardContent className="p-6">
               <div className="flex items-center">
-                <div className="p-2 bg-yellow-100 rounded-lg">
-                  <Clock className="w-6 h-6 text-yellow-600" />
+                <div className="p-2 bg-yellow-100 dark:bg-yellow-900/30 rounded-lg">
+                  <Clock className="w-6 h-6 text-yellow-600 dark:text-yellow-400" />
                 </div>
                 <div className="ml-4">
-                  <p className="text-sm font-medium text-gray-600">Pending</p>
-                  <p className="text-2xl font-bold text-gray-900">{stats.pending}</p>
+                  <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Pending</p>
+                  <p className="text-2xl font-bold text-gray-900 dark:text-white">{stats.pending}</p>
                 </div>
               </div>
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="dark:bg-gray-800 dark:border-gray-700">
             <CardContent className="p-6">
               <div className="flex items-center">
-                <div className="p-2 bg-purple-100 rounded-lg">
-                  <Eye className="w-6 h-6 text-purple-600" />
+                <div className="p-2 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
+                  <Eye className="w-6 h-6 text-purple-600 dark:text-purple-400" />
                 </div>
                 <div className="ml-4">
-                  <p className="text-sm font-medium text-gray-600">Total Views</p>
-                  <p className="text-2xl font-bold text-gray-900">{stats.views}</p>
+                  <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Total Views</p>
+                  <p className="text-2xl font-bold text-gray-900 dark:text-white">{stats.views}</p>
                 </div>
               </div>
             </CardContent>
@@ -246,9 +249,9 @@ const SellDashboard: React.FC = () => {
         </div>
 
         {/* Listings */}
-        <Card>
+        <Card className="dark:bg-gray-800 dark:border-gray-700">
           <CardHeader>
-            <CardTitle className="flex items-center">
+            <CardTitle className="flex items-center dark:text-white">
               <List className="w-5 h-5 mr-2" />
               My Listings
             </CardTitle>
@@ -260,9 +263,9 @@ const SellDashboard: React.FC = () => {
               </div>
             ) : listings.length === 0 ? (
               <div className="text-center py-12">
-                <List className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                <h3 className="text-lg font-medium text-gray-900 mb-2">No listings yet</h3>
-                <p className="text-gray-600 mb-6">Create your first listing to get started</p>
+                <List className="w-12 h-12 text-gray-400 dark:text-gray-600 mx-auto mb-4" />
+                <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">No listings yet</h3>
+                <p className="text-gray-600 dark:text-gray-400 mb-6">Create your first listing to get started</p>
                 <Button
                   onClick={() => setShowWizard(true)}
                   className="bg-blue-600 hover:bg-blue-700"
@@ -278,19 +281,19 @@ const SellDashboard: React.FC = () => {
                     key={listing.id}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow"
+                    className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow bg-white/50 dark:bg-gray-900/50"
                   >
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
                         <div className="flex items-center space-x-3 mb-2">
-                          <h3 className="text-lg font-semibold text-gray-900">{listing.title}</h3>
+                          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{listing.title}</h3>
                           {getStatusBadge(listing.status)}
                         </div>
-                        
-                        <p className="text-gray-600 mb-3 line-clamp-2">{listing.description}</p>
-                        
-                        <div className="flex items-center space-x-6 text-sm text-gray-500">
-                          <span className="font-medium text-green-600">
+
+                        <p className="text-gray-600 dark:text-gray-400 mb-3 line-clamp-2">{listing.description}</p>
+
+                        <div className="flex items-center space-x-6 text-sm text-gray-500 dark:text-gray-400">
+                          <span className="font-medium text-green-600 dark:text-green-400">
                             {listing.currency} {listing.price?.toLocaleString()}
                             {listing.type === 'rent' && listing.rent_period && ` / ${listing.rent_period}`}
                           </span>
@@ -301,7 +304,7 @@ const SellDashboard: React.FC = () => {
                           <span>Created {new Date(listing.created_at).toLocaleDateString()}</span>
                         </div>
                       </div>
-                      
+
                       <div className="flex items-center space-x-2 ml-4">
                         <Button
                           variant="outline"
@@ -310,7 +313,7 @@ const SellDashboard: React.FC = () => {
                         >
                           <Eye className="w-4 h-4" />
                         </Button>
-                        
+
                         {listing.status === 'pending' && (
                           <Button
                             variant="outline"
@@ -320,12 +323,12 @@ const SellDashboard: React.FC = () => {
                             <Edit className="w-4 h-4" />
                           </Button>
                         )}
-                        
+
                         <Button
                           variant="outline"
                           size="sm"
                           onClick={() => handleDeleteListing(listing.id)}
-                          className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                          className="text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/20"
                         >
                           <Trash2 className="w-4 h-4" />
                         </Button>

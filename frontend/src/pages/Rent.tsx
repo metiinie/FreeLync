@@ -45,17 +45,17 @@ const Rent: React.FC = () => {
 
       // Build search filters - only apply if user has actively searched or filtered
       const searchFilters: SearchFilters = { type: 'rent' }; // Always filter for rent items
-      
+
       // Only apply search if user has typed something
       if (searchTerm.trim()) {
         searchFilters.search = searchTerm.trim();
       }
-      
+
       // Only apply category filter if user has selected something other than 'all'
       if (filters.category && filters.category !== 'all') {
         searchFilters.category = filters.category;
       }
-      
+
       // Only apply price filters if user has entered values
       if (filters.minPrice) {
         searchFilters.minPrice = filters.minPrice;
@@ -63,17 +63,17 @@ const Rent: React.FC = () => {
       if (filters.maxPrice) {
         searchFilters.maxPrice = filters.maxPrice;
       }
-      
+
       // Only apply city filter if user has entered a city
       if (filters.city) {
         searchFilters.city = filters.city;
       }
-      
+
       // Only apply verified filter if user has selected it
       if (filters.verified !== undefined) {
         searchFilters.verified = filters.verified;
       }
-      
+
       // Only apply sort if user has selected something other than default
       if (filters.sortBy && filters.sortBy !== 'date_desc') {
         searchFilters.sortBy = filters.sortBy;
@@ -112,7 +112,7 @@ const Rent: React.FC = () => {
     };
 
     window.addEventListener('listingDeleted', handleListingDeleted as EventListener);
-    
+
     return () => {
       window.removeEventListener('listingDeleted', handleListingDeleted as EventListener);
     };
@@ -150,7 +150,7 @@ const Rent: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <motion.div
@@ -158,10 +158,10 @@ const Rent: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-8"
         >
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
             Find Your Perfect Rental
           </h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
             Browse through thousands of verified rental listings for cars, houses, and more
           </p>
         </motion.div>
@@ -175,16 +175,16 @@ const Rent: React.FC = () => {
           {/* Search Input with Button */}
           <div className="mb-4 flex gap-2">
             <div className="flex-1 relative">
-              <input 
-                type="text" 
-                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 pl-10" 
-                placeholder="Search by title, description, or location..." 
+              <input
+                type="text"
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 pl-10"
+                placeholder="Search by title, description, or location..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
               />
             </div>
-            <Button 
+            <Button
               onClick={handleSearch}
               className="bg-blue-600 hover:bg-blue-700 text-white px-6"
             >
@@ -194,23 +194,22 @@ const Rent: React.FC = () => {
 
           {/* Search Results Info */}
           <div className="mb-4 text-center">
-            <div className="text-sm text-gray-500">
+            <div className="text-sm text-gray-500 dark:text-gray-400">
               {totalCount} rental properties found
             </div>
           </div>
         </motion.div>
 
         {/* Category Tabs */}
-        <div className="flex space-x-1 mb-8 bg-white rounded-lg p-1 shadow-sm overflow-x-auto">
+        <div className="flex space-x-1 mb-8 bg-white dark:bg-gray-800 rounded-lg p-1 shadow-sm border dark:border-gray-700 overflow-x-auto">
           {categories.map((category) => (
             <button
               key={category.id}
               onClick={() => handleCategoryChange(category.id)}
-              className={`flex-shrink-0 flex items-center justify-center px-4 py-3 rounded-md text-sm font-medium transition-colors ${
-                (filters.category === category.id) || (category.id === 'all' && !filters.category)
-                  ? 'bg-[#0B132B] text-white'
-                  : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-              }`}
+              className={`flex-shrink-0 flex items-center justify-center px-4 py-3 rounded-md text-sm font-medium transition-colors ${(filters.category === category.id) || (category.id === 'all' && !filters.category)
+                  ? 'bg-[#0B132B] dark:bg-blue-600 text-white'
+                  : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700'
+                }`}
             >
               <span className="mr-2">{category.icon}</span>
               {category.name}
@@ -230,11 +229,11 @@ const Rent: React.FC = () => {
         {loading && listings.length === 0 && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {[...Array(8)].map((_, index) => (
-              <div key={index} className="bg-white rounded-lg shadow-sm p-4 animate-pulse">
-                <div className="w-full h-48 bg-gray-200 rounded-lg mb-4"></div>
-                <div className="h-4 bg-gray-200 rounded mb-2"></div>
-                <div className="h-4 bg-gray-200 rounded w-3/4 mb-4"></div>
-                <div className="h-6 bg-gray-200 rounded w-1/2"></div>
+              <div key={index} className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 animate-pulse border dark:border-gray-700">
+                <div className="w-full h-48 bg-gray-200 dark:bg-gray-700 rounded-lg mb-4"></div>
+                <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded mb-2"></div>
+                <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-3/4 mb-4"></div>
+                <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-1/2"></div>
               </div>
             ))}
           </div>
@@ -293,19 +292,19 @@ const Rent: React.FC = () => {
 
                   <CardContent>
                     <div className="flex items-center justify-between mb-4">
-                      <div className="text-2xl font-bold text-[#0B132B]">
+                      <div className="text-2xl font-bold text-[#0B132B] dark:text-white">
                         {formatPrice(listing.price, listing.currency)}
                         {listing.type === 'rent' && listing.rent_period && (
-                          <span className="text-sm text-gray-500 font-normal">/{listing.rent_period}</span>
+                          <span className="text-sm text-gray-500 dark:text-gray-400 font-normal">/{listing.rent_period}</span>
                         )}
                       </div>
-                      <div className="flex items-center gap-1 text-sm text-gray-500">
+                      <div className="flex items-center gap-1 text-sm text-gray-500 dark:text-gray-400">
                         <Eye className="h-4 w-4" />
                         {listing.views}
                       </div>
                     </div>
 
-                    <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
+                    <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400 mb-4">
                       <span>{formatRelativeTime(listing.created_at)}</span>
                     </div>
 
@@ -336,15 +335,15 @@ const Rent: React.FC = () => {
             <div className="text-gray-400 mb-4">
               <Search className="h-16 w-16 mx-auto" />
             </div>
-            <h3 className="text-lg font-medium text-gray-900 mb-2">
-              {searchTerm || Object.values(filters).some(filter => filter !== undefined && filter !== 'all' && filter !== '') 
-                ? 'No properties found' 
+            <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
+              {searchTerm || Object.values(filters).some(filter => filter !== undefined && filter !== 'all' && filter !== '')
+                ? 'No properties found'
                 : 'No properties available for rent yet'
               }
             </h3>
-            <p className="text-gray-600 mb-4">
-              {searchTerm || Object.values(filters).some(filter => filter !== undefined && filter !== 'all' && filter !== '') 
-                ? 'Try adjusting your search criteria or browse all categories.' 
+            <p className="text-gray-600 dark:text-gray-400 mb-4">
+              {searchTerm || Object.values(filters).some(filter => filter !== undefined && filter !== 'all' && filter !== '')
+                ? 'Try adjusting your search criteria or browse all categories.'
                 : 'Be the first to list your property for rent! Create a listing to get started.'
               }
             </p>
@@ -367,7 +366,7 @@ const Rent: React.FC = () => {
                 </Button>
               )}
               {user && (
-                <Button 
+                <Button
                   className="bg-blue-600 hover:bg-blue-700"
                   onClick={() => window.location.href = '/sell'}
                 >

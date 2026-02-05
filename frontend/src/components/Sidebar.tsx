@@ -1,12 +1,12 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
-import { 
-  Home, 
-  Info, 
-  MessageCircle, 
-  HelpCircle, 
-  Shield, 
+import {
+  Home,
+  Info,
+  MessageCircle,
+  HelpCircle,
+  Shield,
   FileText,
   Search,
   X
@@ -32,9 +32,6 @@ const Sidebar = ({ onClose }: SidebarProps) => {
     { name: 'Browse Listings', href: '/buy', icon: Search },
     { name: 'About Us', href: '/about', icon: Info },
     { name: 'Contact', href: '/contact', icon: MessageCircle },
-    { name: 'FAQs', href: '/faq', icon: HelpCircle },
-    { name: 'Privacy Policy', href: '/privacy', icon: Shield },
-    { name: 'Terms of Service', href: '/terms', icon: FileText },
   ];
 
   const handleNavClick = (href: string) => {
@@ -43,9 +40,9 @@ const Sidebar = ({ onClose }: SidebarProps) => {
   };
 
   return (
-    <div className="flex flex-col h-full bg-white border-r border-gray-200">
+    <div className="flex flex-col h-full bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 transition-colors duration-300">
       {/* Logo */}
-      <div className="flex items-center justify-between p-6 border-b border-gray-200">
+      <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-800">
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -56,17 +53,17 @@ const Sidebar = ({ onClose }: SidebarProps) => {
             <span className="text-white font-bold text-lg">S</span>
           </div>
           <div>
-            <h1 className="text-xl font-bold text-gray-900">FreeLync</h1>
-            <p className="text-sm text-gray-500">Digital Brokerage</p>
+            <h1 className="text-xl font-bold text-gray-900 dark:text-white">FreeLync</h1>
+            <p className="text-sm text-gray-500 dark:text-gray-400">Digital Brokerage</p>
           </div>
         </motion.div>
-        
+
         {onClose && (
           <button
             onClick={onClose}
-            className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+            className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
           >
-            <X className="w-5 h-5 text-gray-500" />
+            <X className="w-5 h-5 text-gray-500 dark:text-gray-400" />
           </button>
         )}
       </div>
@@ -90,10 +87,9 @@ const Sidebar = ({ onClose }: SidebarProps) => {
                 to={item.href}
                 onClick={() => handleNavClick(item.href)}
                 className={({ isActive }) =>
-                  `flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
-                    isActive
-                      ? 'bg-blue-50 text-blue-700 border-r-2 border-blue-700'
-                      : 'text-gray-700 hover:bg-gray-50'
+                  `flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${isActive
+                    ? 'bg-blue-50 dark:bg-blue-950/30 text-blue-700 dark:text-blue-400 border-r-2 border-blue-700'
+                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800'
                   }`
                 }
               >
@@ -111,14 +107,14 @@ const Sidebar = ({ onClose }: SidebarProps) => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="p-6 border-t border-gray-200"
+          className="p-6 border-t border-gray-200 dark:border-gray-800"
         >
           <div className="flex items-center space-x-3">
             <div className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden bg-gradient-to-br from-blue-500 to-blue-600">
               {user.avatar_url && !avatarError ? (
-                <img 
-                  src={user.avatar_url} 
-                  alt={user.full_name || 'User'} 
+                <img
+                  src={user.avatar_url}
+                  alt={user.full_name || 'User'}
                   className="w-full h-full object-cover"
                   onError={() => setAvatarError(true)}
                 />
@@ -129,10 +125,10 @@ const Sidebar = ({ onClose }: SidebarProps) => {
               )}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-gray-900 truncate">
+              <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
                 {user.full_name}
               </p>
-              <p className="text-xs text-gray-500 truncate">
+              <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
                 {user.role.charAt(0).toUpperCase() + user.role.slice(1)}
               </p>
             </div>

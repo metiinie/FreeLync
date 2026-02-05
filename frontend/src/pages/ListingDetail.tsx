@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { 
-  ArrowLeft, 
-  MapPin, 
-  Eye, 
-  Heart, 
-  Share2, 
-  Star, 
+import {
+  ArrowLeft,
+  MapPin,
+  Eye,
+  Heart,
+  Share2,
+  Star,
   DollarSign,
   Car,
   Home,
@@ -54,7 +54,7 @@ const ListingDetail: React.FC = () => {
         setListing(response.data);
         // Increment view count
         await ListingsService.incrementViews(id!);
-        
+
         // Check if listing is favorited
         if (user) {
           const favoriteResult = await FavoritesService.isFavorited(user.id, id!);
@@ -197,7 +197,7 @@ const ListingDetail: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center transition-colors duration-300">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
       </div>
     );
@@ -205,10 +205,10 @@ const ListingDetail: React.FC = () => {
 
   if (!listing) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center transition-colors duration-300">
         <div className="text-center">
           <Package className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-          <h3 className="text-lg font-medium text-gray-900 mb-2">Listing not found</h3>
+          <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">Listing not found</h3>
           <Button onClick={() => navigate('/buy')}>Back to Buy</Button>
         </div>
       </div>
@@ -216,19 +216,19 @@ const ListingDetail: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
       {/* Header */}
-      <div className="bg-white border-b">
+      <div className="bg-white dark:bg-gray-900 border-b dark:border-gray-800 sticky top-0 z-10 backdrop-blur-md bg-white/70 dark:bg-gray-900/70">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
-        <Button
-          variant="outline"
+            <Button
+              variant="outline"
               onClick={() => navigate('/listings')}
               className="flex items-center gap-2"
-        >
+            >
               <ArrowLeft className="w-4 h-4" />
               Back to Listings
-        </Button>
+            </Button>
 
             <div className="flex items-center gap-2">
               <Button variant="outline" onClick={handleBuyNow} disabled={processingPayment}>
@@ -258,60 +258,59 @@ const ListingDetail: React.FC = () => {
                 <div className="relative">
                   {listing.images && listing.images.length > 0 ? (
                     <>
-                      <div className="relative h-96 bg-gray-100">
-                  <img
+                      <div className="relative h-96 bg-gray-100 dark:bg-gray-800">
+                        <img
                           src={listing.images[currentImageIndex].url}
-                    alt={listing.title}
+                          alt={listing.title}
                           className="w-full h-full object-cover"
-                  />
-                  
-                  {listing.images.length > 1 && (
-                    <>
-                      <button
-                              onClick={() => setCurrentImageIndex(prev => 
+                        />
+
+                        {listing.images.length > 1 && (
+                          <>
+                            <button
+                              onClick={() => setCurrentImageIndex(prev =>
                                 prev === 0 ? listing.images.length - 1 : prev - 1
                               )}
-                              className="absolute left-4 top-1/2 transform -translate-y-1/2 p-2 bg-white/80 backdrop-blur-sm rounded-full hover:bg-white transition-colors"
+                              className="absolute left-4 top-1/2 transform -translate-y-1/2 p-2 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm rounded-full hover:bg-white dark:hover:bg-gray-800 transition-colors"
                             >
-                              <ChevronLeft className="w-5 h-5" />
-                      </button>
-                      <button
-                              onClick={() => setCurrentImageIndex(prev => 
+                              <ChevronLeft className="w-5 h-5 dark:text-white" />
+                            </button>
+                            <button
+                              onClick={() => setCurrentImageIndex(prev =>
                                 prev === listing.images.length - 1 ? 0 : prev + 1
                               )}
-                              className="absolute right-4 top-1/2 transform -translate-y-1/2 p-2 bg-white/80 backdrop-blur-sm rounded-full hover:bg-white transition-colors"
+                              className="absolute right-4 top-1/2 transform -translate-y-1/2 p-2 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm rounded-full hover:bg-white dark:hover:bg-gray-800 transition-colors"
                             >
-                              <ChevronRight className="w-5 h-5" />
-                      </button>
-                    </>
-                  )}
-                    </div>
+                              <ChevronRight className="w-5 h-5 dark:text-white" />
+                            </button>
+                          </>
+                        )}
+                      </div>
 
-                  {listing.images.length > 1 && (
+                      {listing.images.length > 1 && (
                         <div className="p-4">
                           <div className="flex gap-2 overflow-x-auto">
                             {listing.images.map((image, index) => (
-                        <button
-                          key={index}
-                          onClick={() => setCurrentImageIndex(index)}
-                                className={`flex-shrink-0 w-20 h-16 rounded-lg overflow-hidden border-2 ${
-                                  index === currentImageIndex ? 'border-blue-500' : 'border-gray-200'
-                          }`}
-                        >
-                          <img
-                            src={image.url}
+                              <button
+                                key={index}
+                                onClick={() => setCurrentImageIndex(index)}
+                                className={`flex-shrink-0 w-20 h-16 rounded-lg overflow-hidden border-2 ${index === currentImageIndex ? 'border-blue-500' : 'border-gray-200 dark:border-gray-700'
+                                  }`}
+                              >
+                                <img
+                                  src={image.url}
                                   alt={`${listing.title} ${index + 1}`}
-                            className="w-full h-full object-cover"
-                          />
-                        </button>
-                      ))}
+                                  className="w-full h-full object-cover"
+                                />
+                              </button>
+                            ))}
                           </div>
                         </div>
                       )}
                     </>
                   ) : (
-                    <div className="h-96 bg-gray-100 flex items-center justify-center">
-                      <Package className="w-16 h-16 text-gray-400" />
+                    <div className="h-96 bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
+                      <Package className="w-16 h-16 text-gray-400 dark:text-gray-600" />
                     </div>
                   )}
                 </div>
@@ -328,18 +327,18 @@ const ListingDetail: React.FC = () => {
                         {getCategoryIcon(listing.category)}
                         {listing.category}
                       </Badge>
-                      <Badge className={listing.type === 'rent' ? 'bg-orange-100 text-orange-800' : 'bg-green-100 text-green-800'}>
+                      <Badge className={listing.type === 'rent' ? 'bg-orange-100 dark:bg-orange-900/30 text-orange-800 dark:text-orange-400' : 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400'}>
                         {listing.type === 'rent' ? 'For Rent' : 'For Sale'}
                       </Badge>
                       {getStatusBadge(listing.status)}
                     </div>
                     <CardTitle className="text-2xl">{listing.title}</CardTitle>
-                    </div>
+                  </div>
                   <div className="text-right">
                     <div className="text-3xl font-bold text-green-600">
                       {formatPrice(listing.price, listing.currency, listing.type, listing.rent_period)}
-                  </div>
-                    <div className="flex items-center gap-1 text-gray-500 text-sm mt-1">
+                    </div>
+                    <div className="flex items-center gap-1 text-gray-500 dark:text-gray-400 text-sm mt-1">
                       <Eye className="w-4 h-4" />
                       <span>{listing.views || 0} views</span>
                     </div>
@@ -347,54 +346,54 @@ const ListingDetail: React.FC = () => {
                 </div>
               </CardHeader>
               <CardContent className="space-y-6">
-                  <div>
-                    <h3 className="text-lg font-semibold mb-3">Description</h3>
-                    <p className="text-gray-700 leading-relaxed">{listing.description}</p>
-                  </div>
+                <div>
+                  <h3 className="text-lg font-semibold mb-3 dark:text-white">Description</h3>
+                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed">{listing.description}</p>
+                </div>
 
                 {/* Location */}
                 <div>
-                  <h3 className="text-lg font-semibold mb-3">Location</h3>
-                  <div className="flex items-center gap-2 text-gray-700">
-                    <MapPin className="w-5 h-5 text-gray-500" />
+                  <h3 className="text-lg font-semibold mb-3 dark:text-white">Location</h3>
+                  <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
+                    <MapPin className="w-5 h-5 text-gray-500 dark:text-gray-400" />
                     <span>{listing.location.city}, {listing.location.subcity}</span>
                     {listing.location.woreda && <span>• {listing.location.woreda}</span>}
                   </div>
-                  </div>
+                </div>
 
-                  {/* Features */}
-                  {listing.features && Object.keys(listing.features).length > 0 && (
-                    <div>
-                      <h3 className="text-lg font-semibold mb-3">Features</h3>
+                {/* Features */}
+                {listing.features && Object.keys(listing.features).length > 0 && (
+                  <div>
+                    <h3 className="text-lg font-semibold mb-3 dark:text-white">Features</h3>
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                        {Object.entries(listing.features).map(([key, value]) => (
-                        <div key={key} className="flex items-center gap-2 text-sm">
+                      {Object.entries(listing.features).map(([key, value]) => (
+                        <div key={key} className="flex items-center gap-2 text-sm dark:text-gray-300">
                           <CheckCircle className="w-4 h-4 text-green-500" />
                           <span className="capitalize">{key.replace(/_/g, ' ')}: {value}</span>
-                          </div>
-                        ))}
-                      </div>
+                        </div>
+                      ))}
                     </div>
-                  )}
+                  </div>
+                )}
 
                 {/* Documents */}
                 {listing.documents && listing.documents.length > 0 && (
                   <div>
-                    <h3 className="text-lg font-semibold mb-3">Documents</h3>
+                    <h3 className="text-lg font-semibold mb-3 dark:text-white">Documents</h3>
                     <div className="space-y-2">
                       {listing.documents.map((doc, index) => (
-                        <div key={index} className="flex items-center gap-2 p-3 bg-gray-50 rounded-lg">
-                          <Package className="w-4 h-4 text-gray-500" />
-                          <span className="text-sm">{doc.name}</span>
+                        <div key={index} className="flex items-center gap-2 p-3 bg-gray-50 dark:bg-gray-900 rounded-lg border dark:border-gray-800">
+                          <Package className="w-4 h-4 text-gray-500 dark:text-gray-400" />
+                          <span className="text-sm dark:text-gray-300">{doc.name}</span>
                           <Button size="sm" variant="outline" asChild>
                             <a href={doc.url} target="_blank" rel="noopener noreferrer">
                               View
                             </a>
                           </Button>
-                      </div>
+                        </div>
                       ))}
-                      </div>
                     </div>
+                  </div>
                 )}
               </CardContent>
             </Card>
@@ -408,7 +407,7 @@ const ListingDetail: React.FC = () => {
                 <CardTitle>Quick Actions</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
-                  <Button
+                <Button
                   className="w-full bg-green-600 hover:bg-green-700"
                   onClick={handleBuyNow}
                   disabled={processingPayment || listing.status !== 'approved'}
@@ -425,18 +424,18 @@ const ListingDetail: React.FC = () => {
                     </>
                   )}
                 </Button>
-                
-                <Button 
-                  variant="outline" 
+
+                <Button
+                  variant="outline"
                   className="w-full"
                   onClick={toggleFavorite}
                 >
                   <Heart className={`w-4 h-4 mr-2 ${isFavorite ? 'fill-red-500 text-red-500' : ''}`} />
                   {isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}
                 </Button>
-                
-                <Button 
-                  variant="outline" 
+
+                <Button
+                  variant="outline"
                   className="w-full"
                   onClick={handleShare}
                 >
@@ -453,25 +452,25 @@ const ListingDetail: React.FC = () => {
               </CardHeader>
               <CardContent className="space-y-3">
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Listed on:</span>
-                  <span>{new Date(listing.created_at).toLocaleDateString()}</span>
-                  </div>
+                  <span className="text-gray-600 dark:text-gray-400">Listed on:</span>
+                  <span className="dark:text-gray-200">{new Date(listing.created_at).toLocaleDateString()}</span>
+                </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Category:</span>
-                  <span className="capitalize">{listing.category}</span>
-                  </div>
+                  <span className="text-gray-600 dark:text-gray-400">Category:</span>
+                  <span className="capitalize dark:text-gray-200">{listing.category}</span>
+                </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Type:</span>
-                  <span>{listing.type === 'rent' ? 'For Rent' : 'For Sale'}</span>
-                  </div>
+                  <span className="text-gray-600 dark:text-gray-400">Type:</span>
+                  <span className="dark:text-gray-200">{listing.type === 'rent' ? 'For Rent' : 'For Sale'}</span>
+                </div>
                 {listing.rent_period && (
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Rental Period:</span>
-                    <span className="capitalize">{listing.rent_period}</span>
+                    <span className="text-gray-600 dark:text-gray-400">Rental Period:</span>
+                    <span className="capitalize dark:text-gray-200">{listing.rent_period}</span>
                   </div>
                 )}
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Status:</span>
+                  <span className="text-gray-600 dark:text-gray-400">Status:</span>
                   {getStatusBadge(listing.status)}
                 </div>
               </CardContent>
