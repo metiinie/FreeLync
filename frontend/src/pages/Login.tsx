@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Eye, EyeOff, Mail, Lock } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
-import logoImage from '../components/Images/Logo.png';
+import logoImage from '@/components/Images/Logo.png';
 
 const loginSchema = z.object({
   email: z.string().email('Please enter a valid email address'),

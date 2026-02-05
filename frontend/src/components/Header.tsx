@@ -16,7 +16,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { useNotifications } from '../contexts/NotificationContext';
 import { useTheme } from '../contexts/ThemeContext';
 import { useNavigate } from 'react-router-dom';
-import logoImage from './Images/Logo.png';
+import logoImage from '@/components/Images/Logo.png';
 
 interface HeaderProps {
   onMenuClick: () => void;

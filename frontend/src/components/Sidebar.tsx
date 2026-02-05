@@ -12,7 +12,7 @@ import {
   X
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
-import logoImage from './Images/Logo.png';
+import logoImage from '@/components/Images/Logo.png';
 
 interface SidebarProps {
   onClose?: () => void;
