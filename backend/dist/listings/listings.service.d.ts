@@ -3,7 +3,7 @@ import { Prisma } from '@prisma/client';
 export declare class ListingsService {
     private prisma;
     constructor(prisma: PrismaService);
-    findAll(filters: any): Promise<{
+    findAll(filters: any, user?: any): Promise<{
         data: ({
             owner: {
                 id: string;
@@ -108,7 +108,7 @@ export declare class ListingsService {
         };
         success: boolean;
     }>;
-    update(id: string, data: any, ownerId: string): Promise<{
+    updateStatus(id: string, status: string, notes?: string): Promise<{
         data: {
             id: string;
             verified: boolean;
@@ -136,8 +136,43 @@ export declare class ListingsService {
         };
         success: boolean;
     }>;
-    remove(id: string, ownerId: string): Promise<{
+    update(id: string, data: any, ownerId: string, isAdmin?: boolean): Promise<{
+        data: {
+            id: string;
+            verified: boolean;
+            is_active: boolean;
+            created_at: Date;
+            updated_at: Date;
+            title: string;
+            description: string;
+            category: import(".prisma/client").$Enums.ListingCategory;
+            subcategory: string | null;
+            price: number;
+            currency: string;
+            type: import(".prisma/client").$Enums.ListingType;
+            rent_period: string | null;
+            location: Prisma.JsonValue;
+            images: Prisma.JsonValue;
+            documents: Prisma.JsonValue;
+            features: Prisma.JsonValue;
+            status: import(".prisma/client").$Enums.ListingStatus;
+            verification_notes: string | null;
+            views: number;
+            tags: string[];
+            expires_at: Date | null;
+            owner_id: string;
+        };
+        success: boolean;
+    }>;
+    remove(id: string, ownerId: string, isAdmin?: boolean): Promise<{
         success: boolean;
         message: string;
+    }>;
+    getStats(): Promise<{
+        success: boolean;
+        data: {
+            total: number;
+            averagePrice: number;
+        };
     }>;
 }

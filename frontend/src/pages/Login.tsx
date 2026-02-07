@@ -95,7 +95,7 @@ const Login = () => {
                   {...register('email')}
                   type="email"
                   autoComplete="email"
-                  className="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-700 dark:bg-gray-900 rounded-md placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:text-white sm:text-sm"
+                  className="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-700 dark:bg-gray-900 rounded-md placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-gray-800 sm:text-sm"
                   placeholder="Enter your email"
                 />
               </div>
@@ -116,7 +116,7 @@ const Login = () => {
                   {...register('password')}
                   type={showPassword ? 'text' : 'password'}
                   autoComplete="current-password"
-                  className="appearance-none block w-full pl-10 pr-10 py-2 border border-gray-300 dark:border-gray-700 dark:bg-gray-900 rounded-md placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:text-white sm:text-sm"
+                  className="appearance-none block w-full pl-10 pr-10 py-2 border border-gray-300 dark:border-gray-700 dark:bg-gray-900 rounded-md placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-gray-800 sm:text-sm"
                   placeholder="Enter your password"
                 />
                 <button

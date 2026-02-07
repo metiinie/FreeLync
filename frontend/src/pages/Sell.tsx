@@ -26,7 +26,7 @@ const Sell: React.FC = () => {
 
   const calculateStats = (userListings: Listing[]) => {
     const total = userListings.length;
-    const active = userListings.filter(l => l.status === 'approved').length;
+    const active = userListings.filter(l => l.status === 'approved' || l.status === 'pending').length;
     const pending = userListings.filter(l => l.status === 'pending').length;
     const views = userListings.reduce((sum, l) => sum + (l.views || 0), 0);
 
@@ -63,7 +63,7 @@ const Sell: React.FC = () => {
     try {
       const response = await ListingsService.createListing(listingData);
       if (response.success) {
-        toast.success('Listing created successfully! It will be reviewed within 24 hours.');
+        toast.success('Listing created successfully! It is now live.');
         setShowWizard(false);
         loadListings();
       } else {
@@ -106,9 +106,8 @@ const Sell: React.FC = () => {
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'approved':
-        return <Badge className="bg-green-100 text-green-800"><CheckCircle className="w-3 h-3 mr-1" />Active</Badge>;
       case 'pending':
-        return <Badge className="bg-yellow-100 text-yellow-800"><Clock className="w-3 h-3 mr-1" />Pending</Badge>;
+        return <Badge className="bg-green-100 text-green-800"><CheckCircle className="w-3 h-3 mr-1" />Active</Badge>;
       case 'rejected':
         return <Badge className="bg-red-100 text-red-800"><XCircle className="w-3 h-3 mr-1" />Rejected</Badge>;
       default:

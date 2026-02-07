@@ -32,7 +32,7 @@ const Contact = () => {
       icon: Mail,
       title: 'Email Us',
       content: 'abumahilkerim@gmail.com',
-      description: 'Our team will respond within 24 hours.',
+      description: 'Our team will respond as soon as possible.',
       href: 'mailto:abumahilkerim@gmail.com'
     },
     {
@@ -131,7 +131,7 @@ const Contact = () => {
                     placeholder="Enter your name"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="rounded-xl border-gray-200 dark:border-gray-700 dark:bg-gray-900 dark:text-white focus:ring-blue-500"
+                    className="rounded-xl border-gray-200 dark:border-gray-700 dark:bg-gray-900 text-gray-800 focus:ring-blue-500"
                   />
                 </div>
                 <div className="space-y-2">
@@ -142,7 +142,7 @@ const Contact = () => {
                     placeholder="name@example.com"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="rounded-xl border-gray-200 dark:border-gray-700 dark:bg-gray-900 dark:text-white focus:ring-blue-500"
+                    className="rounded-xl border-gray-200 dark:border-gray-700 dark:bg-gray-900 text-gray-800 focus:ring-blue-500"
                   />
                 </div>
               </div>
@@ -154,7 +154,7 @@ const Contact = () => {
                   placeholder="How can we help you?"
                   value={formData.subject}
                   onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                  className="rounded-xl border-gray-200 dark:border-gray-700 dark:bg-gray-900 dark:text-white focus:ring-blue-500"
+                  className="rounded-xl border-gray-200 dark:border-gray-700 dark:bg-gray-900 text-gray-800 focus:ring-blue-500"
                 />
               </div>
 
@@ -166,7 +166,7 @@ const Contact = () => {
                   placeholder="Tell us more about your inquiry..."
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 dark:bg-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none resize-none"
+                  className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 dark:bg-gray-900 text-gray-800 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none resize-none"
                 />
               </div>
 

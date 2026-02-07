@@ -107,7 +107,7 @@ const Register = () => {
                   {...register('full_name')}
                   type="text"
                   autoComplete="name"
-                  className="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-700 dark:bg-gray-900 rounded-md placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:text-white sm:text-sm"
+                  className="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-700 dark:bg-gray-900 rounded-md placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-gray-800 sm:text-sm"
                   placeholder="Enter your full name"
                 />
               </div>
@@ -128,7 +128,7 @@ const Register = () => {
                   {...register('email')}
                   type="email"
                   autoComplete="email"
-                  className="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-700 dark:bg-gray-900 rounded-md placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:text-white sm:text-sm"
+                  className="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-700 dark:bg-gray-900 rounded-md placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-gray-800 sm:text-sm"
                   placeholder="Enter your email"
                 />
               </div>
@@ -149,7 +149,7 @@ const Register = () => {
                   {...register('phone')}
                   type="tel"
                   autoComplete="tel"
-                  className="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-700 dark:bg-gray-900 rounded-md placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:text-white sm:text-sm"
+                  className="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-700 dark:bg-gray-900 rounded-md placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-gray-800 sm:text-sm"
                   placeholder="+251 9XX XXX XXX"
                 />
               </div>
@@ -165,7 +165,7 @@ const Register = () => {
               <div className="mt-1">
                 <select
                   {...register('role')}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 dark:border-gray-700 dark:bg-gray-900 rounded-md placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:text-white sm:text-sm"
+                  className="appearance-none block w-full px-3 py-2 border border-gray-300 dark:border-gray-700 dark:bg-gray-900 rounded-md placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-gray-800 sm:text-sm"
                 >
                   <option value="buyer">Buy/Rent properties</option>
                   <option value="seller">Sell/Rent out properties</option>
@@ -188,7 +188,7 @@ const Register = () => {
                   {...register('password')}
                   type={showPassword ? 'text' : 'password'}
                   autoComplete="new-password"
-                  className="appearance-none block w-full pl-10 pr-10 py-2 border border-gray-300 dark:border-gray-700 dark:bg-gray-900 rounded-md placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:text-white sm:text-sm"
+                  className="appearance-none block w-full pl-10 pr-10 py-2 border border-gray-300 dark:border-gray-700 dark:bg-gray-900 rounded-md placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-gray-800 sm:text-sm"
                   placeholder="Create a password"
                 />
                 <button
@@ -220,7 +220,7 @@ const Register = () => {
                   {...register('confirm_password')}
                   type={showConfirmPassword ? 'text' : 'password'}
                   autoComplete="new-password"
-                  className="appearance-none block w-full pl-10 pr-10 py-2 border border-gray-300 dark:border-gray-700 dark:bg-gray-900 rounded-md placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:text-white sm:text-sm"
+                  className="appearance-none block w-full pl-10 pr-10 py-2 border border-gray-300 dark:border-gray-700 dark:bg-gray-900 rounded-md placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-gray-800 sm:text-sm"
                   placeholder="Confirm your password"
                 />
                 <button

@@ -66,4 +66,28 @@ export class TransactionsService {
             data: { status },
         });
     }
+
+    async getStats() {
+        const [total, volumeResult, commissionResult] = await Promise.all([
+            this.prisma.transaction.count(),
+            this.prisma.transaction.aggregate({
+                _sum: { amount: true }
+            }),
+            this.prisma.transaction.aggregate({
+                // This depends on how commission is stored. It's Json in schema.
+                // For now, let's just return a placeholder or sum some field if exists.
+                // In schema.prisma line 155, commission is Json.
+                _sum: { amount: true } // Placeholder summing total amount as volume
+            })
+        ]);
+
+        return {
+            success: true,
+            data: {
+                total,
+                totalVolume: volumeResult._sum.amount || 0,
+                totalCommissions: 0 // Placeholder
+            }
+        };
+    }
 }

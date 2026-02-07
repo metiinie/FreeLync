@@ -72,6 +72,25 @@ let TransactionsService = class TransactionsService {
             data: { status },
         });
     }
+    async getStats() {
+        const [total, volumeResult, commissionResult] = await Promise.all([
+            this.prisma.transaction.count(),
+            this.prisma.transaction.aggregate({
+                _sum: { amount: true }
+            }),
+            this.prisma.transaction.aggregate({
+                _sum: { amount: true }
+            })
+        ]);
+        return {
+            success: true,
+            data: {
+                total,
+                totalVolume: volumeResult._sum.amount || 0,
+                totalCommissions: 0
+            }
+        };
+    }
 };
 exports.TransactionsService = TransactionsService;
 exports.TransactionsService = TransactionsService = __decorate([

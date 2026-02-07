@@ -97,7 +97,7 @@ const AdminPanelContents: React.FC = () => {
   const loadPendingListings = async () => {
     try {
       // Get all listings for admin (including pending)
-      const response = await ListingsService.getAllListingsForAdmin({ page: 1, limit: 100 });
+      const response = await ListingsService.getAllListingsForAdmin({}, { page: 1, limit: 100 });
       if (response.success) {
         setPendingListings(response.data);
       } else {
@@ -194,11 +194,7 @@ const AdminPanelContents: React.FC = () => {
 
   const handleApproveListing = async (listingId: string) => {
     try {
-      const response = await ListingsService.updateListing(listingId, {
-        status: 'approved',
-        verified: true,
-        is_active: true
-      });
+      const response = await ListingsService.updateListingStatus(listingId, 'approved', 'Approved by administrator');
       if (response.success) {
         toast.success('Listing approved successfully');
         await loadPendingListings();
@@ -210,11 +206,7 @@ const AdminPanelContents: React.FC = () => {
 
   const handleRejectListing = async (listingId: string) => {
     try {
-      const response = await ListingsService.updateListing(listingId, {
-        status: 'rejected',
-        verified: false,
-        is_active: false
-      });
+      const response = await ListingsService.updateListingStatus(listingId, 'rejected', 'Rejected by administrator');
       if (response.success) {
         toast.success('Listing rejected successfully');
         await loadPendingListings();
@@ -449,8 +441,8 @@ const AdminPanelContents: React.FC = () => {
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
                     className={`flex items-center whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm ${activeTab === tab.id
-                        ? 'border-[#0B132B] text-[#0B132B]'
-                        : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                      ? 'border-[#0B132B] text-[#0B132B]'
+                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                       }`}
                   >
                     <Icon className="h-4 w-4 mr-2" />

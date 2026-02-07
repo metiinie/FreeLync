@@ -52,6 +52,7 @@ export const endpoints = {
         detail: (id: string) => `/listings/${id}`,
         create: '/listings',
         update: (id: string) => `/listings/${id}`,
+        updateStatus: (id: string) => `/listings/${id}/status`,
         delete: (id: string) => `/listings/${id}`,
         uploadImage: '/listings/upload', // If separate endpoint
     },

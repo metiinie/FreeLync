@@ -61,7 +61,7 @@ const Home: React.FC = () => {
       // Or separate calls
       const [usersRes, listingsRes, transactionsRes] = await Promise.all([
         api.get(endpoints.users.list, { params: { limit: 1 } }).catch(() => ({ data: { total: 120 } })),
-        api.get(endpoints.listings.list, { params: { status: 'approved', limit: 1 } }).catch(() => ({ data: { total: 45 } })),
+        api.get(endpoints.listings.list, { params: { limit: 1 } }).catch(() => ({ data: { total: 45 } })),
         api.get(endpoints.transactions.list, { params: { status: 'completed', limit: 1 } }).catch(() => ({ data: { total: 15 } })),
       ]);
 
@@ -177,7 +177,7 @@ const Home: React.FC = () => {
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
                 <Input
                   placeholder="Search for cars, houses, land..."
-                  className="pl-10 pr-4 py-3 text-lg rounded-full dark:bg-gray-800 dark:border-gray-700 dark:text-white"
+                  className="pl-10 pr-4 py-3 text-lg rounded-full dark:bg-gray-800 dark:border-gray-700 text-gray-800"
                 />
                 <Button className="absolute right-2 top-1/2 transform -translate-y-1/2 rounded-full">
                   Search

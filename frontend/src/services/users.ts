@@ -95,8 +95,12 @@ export class UsersService {
 
   // Get user statistics
   static async getUserStats(): Promise<{ success: boolean; data: any; message?: string }> {
-    // Needs backend stats endpoint
-    return { success: false, data: null, message: 'Stats Not Implemented' };
+    try {
+      const response = await api.get('/users/stats');
+      return response.data;
+    } catch (error: any) {
+      return { success: false, data: null, message: error.message };
+    }
   }
 
   // Search users

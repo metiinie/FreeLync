@@ -15,9 +15,13 @@ export class AuthService extends BaseService {
         localStorage.setItem('token', response.data.token);
       }
 
-      return this.success(response.data.user, 'Registration successful!');
+      return {
+        success: true,
+        user: response.data.user,
+        message: 'Registration successful!'
+      };
     } catch (error: any) {
-      return this.handleError(error, 'signUp');
+      return this.handleError(error, 'signUp') as any;
     }
   }
 
@@ -33,9 +37,13 @@ export class AuthService extends BaseService {
         localStorage.setItem('token', response.data.token);
       }
 
-      return this.success(response.data.user, 'Login successful!');
+      return {
+        success: true,
+        user: response.data.user,
+        message: 'Login successful!'
+      };
     } catch (error: any) {
-      return this.handleError(error, 'signIn');
+      return this.handleError(error, 'signIn') as any;
     }
   }
 

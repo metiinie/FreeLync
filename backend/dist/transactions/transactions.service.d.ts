@@ -182,4 +182,12 @@ export declare class TransactionsService {
         seller_id: string;
         buyer_id: string;
     }>;
+    getStats(): Promise<{
+        success: boolean;
+        data: {
+            total: number;
+            totalVolume: number;
+            totalCommissions: number;
+        };
+    }>;
 }

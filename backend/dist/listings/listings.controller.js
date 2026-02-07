@@ -16,13 +16,20 @@ exports.ListingsController = void 0;
 const common_1 = require("@nestjs/common");
 const listings_service_1 = require("./listings.service");
 const jwt_auth_guard_1 = require("../auth/guards/jwt-auth.guard");
+const roles_guard_1 = require("../auth/guards/roles.guard");
+const roles_decorator_1 = require("../auth/decorators/roles.decorator");
+const optional_jwt_auth_guard_1 = require("../auth/guards/optional-jwt-auth.guard");
+const client_1 = require("@prisma/client");
 let ListingsController = class ListingsController {
     listingsService;
     constructor(listingsService) {
         this.listingsService = listingsService;
     }
-    findAll(query) {
-        return this.listingsService.findAll(query);
+    findAll(query, req) {
+        return this.listingsService.findAll(query, req.user);
+    }
+    getStats() {
+        return this.listingsService.getStats();
     }
     findOne(id) {
         return this.listingsService.findOne(id);
@@ -30,21 +37,34 @@ let ListingsController = class ListingsController {
     create(data, req) {
         return this.listingsService.create(data, req.user.userId);
     }
+    updateStatus(id, body) {
+        return this.listingsService.updateStatus(id, body.status, body.notes);
+    }
     update(id, data, req) {
-        return this.listingsService.update(id, data, req.user.userId);
+        const isAdmin = req.user.role === 'admin';
+        return this.listingsService.update(id, data, req.user.userId, isAdmin);
     }
     remove(id, req) {
-        return this.listingsService.remove(id, req.user.userId);
+        const isAdmin = req.user.role === 'admin';
+        return this.listingsService.remove(id, req.user.userId, isAdmin);
     }
 };
 exports.ListingsController = ListingsController;
 __decorate([
+    (0, common_1.UseGuards)(optional_jwt_auth_guard_1.OptionalJwtAuthGuard),
     (0, common_1.Get)(),
     __param(0, (0, common_1.Query)()),
+    __param(1, (0, common_1.Request)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", void 0)
 ], ListingsController.prototype, "findAll", null);
+__decorate([
+    (0, common_1.Get)('stats'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], ListingsController.prototype, "getStats", null);
 __decorate([
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),
@@ -61,6 +81,16 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", void 0)
 ], ListingsController.prototype, "create", null);
+__decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)(client_1.UserRole.admin),
+    (0, common_1.Patch)(':id/status'),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:returntype", void 0)
+], ListingsController.prototype, "updateStatus", null);
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Patch)(':id'),

@@ -17,22 +17,27 @@ let ListingsService = class ListingsService {
     constructor(prisma) {
         this.prisma = prisma;
     }
-    async findAll(filters) {
-        const { category, type, minPrice, maxPrice, city, search, page = 1, limit = 12 } = filters;
+    async findAll(filters, user) {
+        const { category, type, minPrice, maxPrice, city, search, status, page = 1, limit = 12 } = filters;
         const skip = (page - 1) * limit;
-        const where = {
-            status: 'approved',
-            verified: true,
-            is_active: true,
-        };
+        const where = {};
+        if (user?.role === 'admin') {
+            if (status && status !== 'all') {
+                where.status = status;
+            }
+        }
+        else {
+            where.is_active = true;
+            where.status = { not: 'rejected' };
+        }
         if (category)
             where.category = category;
         if (type)
             where.type = type;
         if (minPrice)
-            where.price = { ...where.price, gte: parseFloat(minPrice) };
+            where.price = { gte: parseFloat(minPrice) };
         if (maxPrice)
-            where.price = { ...where.price, lte: parseFloat(maxPrice) };
+            where.price = { lte: parseFloat(maxPrice) };
         if (city) {
             where.location = {
                 path: ['city'],
@@ -95,32 +100,64 @@ let ListingsService = class ListingsService {
             data: {
                 ...data,
                 owner_id: ownerId,
-                status: 'pending',
-                verified: false,
+                status: 'approved',
+                verified: true,
+                is_active: true,
             },
         });
         return { data: listing, success: true };
     }
-    async update(id, data, ownerId) {
+    async updateStatus(id, status, notes) {
         const listing = await this.prisma.listing.findUnique({ where: { id } });
         if (!listing)
             throw new common_1.NotFoundException('Listing not found');
-        if (listing.owner_id !== ownerId)
+        const updated = await this.prisma.listing.update({
+            where: { id },
+            data: {
+                status: status,
+                verified: status === 'approved',
+                verification_notes: notes,
+            },
+        });
+        return { data: updated, success: true };
+    }
+    async update(id, data, ownerId, isAdmin = false) {
+        const listing = await this.prisma.listing.findUnique({ where: { id } });
+        if (!listing)
+            throw new common_1.NotFoundException('Listing not found');
+        if (listing.owner_id !== ownerId && !isAdmin) {
             throw new Error('Unauthorized');
+        }
         const updated = await this.prisma.listing.update({
             where: { id },
             data,
         });
         return { data: updated, success: true };
     }
-    async remove(id, ownerId) {
+    async remove(id, ownerId, isAdmin = false) {
         const listing = await this.prisma.listing.findUnique({ where: { id } });
         if (!listing)
             throw new common_1.NotFoundException('Listing not found');
-        if (listing.owner_id !== ownerId)
+        if (listing.owner_id !== ownerId && !isAdmin) {
             throw new Error('Unauthorized');
+        }
         await this.prisma.listing.delete({ where: { id } });
         return { success: true, message: 'Listing deleted' };
+    }
+    async getStats() {
+        const [total, averagePriceResult] = await Promise.all([
+            this.prisma.listing.count(),
+            this.prisma.listing.aggregate({
+                _avg: { price: true }
+            })
+        ]);
+        return {
+            success: true,
+            data: {
+                total,
+                averagePrice: averagePriceResult._avg.price || 0
+            }
+        };
     }
 };
 exports.ListingsService = ListingsService;

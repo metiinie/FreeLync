@@ -177,7 +177,7 @@ const Buy: React.FC = () => {
             <div className="flex-1 relative">
               <input
                 type="text"
-                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 pl-10"
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-gray-800 ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 pl-10"
                 placeholder="Search by title, description, or location..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -207,8 +207,8 @@ const Buy: React.FC = () => {
               key={category.id}
               onClick={() => handleCategoryChange(category.id)}
               className={`flex-shrink-0 flex items-center justify-center px-4 py-3 rounded-md text-sm font-medium transition-colors ${(filters.category === category.id) || (category.id === 'all' && !filters.category)
-                  ? 'bg-[#0B132B] dark:bg-blue-600 text-white'
-                  : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700'
+                ? 'bg-[#0B132B] dark:bg-blue-600 text-white'
+                : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700'
                 }`}
             >
               <span className="mr-2">{category.icon}</span>
@@ -333,13 +333,13 @@ const Buy: React.FC = () => {
               <Search className="h-16 w-16 mx-auto" />
             </div>
             <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
-              {searchTerm || Object.values(filters).some(filter => filter !== undefined && filter !== 'all' && filter !== '')
+              {searchTerm || Object.entries(filters).some(([key, value]) => key !== 'type' && value !== undefined && value !== 'all' && value !== '')
                 ? 'No properties found'
                 : 'No properties available for sale yet'
               }
             </h3>
             <p className="text-gray-600 dark:text-gray-400 mb-4">
-              {searchTerm || Object.values(filters).some(filter => filter !== undefined && filter !== 'all' && filter !== '')
+              {searchTerm || Object.entries(filters).some(([key, value]) => key !== 'type' && value !== undefined && value !== 'all' && value !== '')
                 ? 'Try adjusting your search criteria or browse all categories.'
                 : 'Be the first to list your property for sale! Create a listing to get started.'
               }

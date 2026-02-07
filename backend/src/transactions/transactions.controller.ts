@@ -12,6 +12,11 @@ export class TransactionsController {
         return this.transactionsService.findAll(req.user.userId, req.user.role);
     }
 
+    @Get('stats')
+    getStats() {
+        return this.transactionsService.getStats();
+    }
+
     @Get(':id')
     findOne(@Param('id') id: string, @Request() req: any) {
         return this.transactionsService.findOne(id, req.user.userId, req.user.role);

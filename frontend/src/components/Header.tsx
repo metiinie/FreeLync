@@ -67,7 +67,7 @@ const Header = ({ onMenuClick }: HeaderProps) => {
                 <input
                   type="text"
                   placeholder="Search listings..."
-                  className="pl-10 pr-4 py-2 w-64 border border-input dark:border-gray-700 rounded-xl bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm focus:ring-2 focus:ring-primary focus:border-transparent dark:text-white dark:placeholder-gray-500"
+                  className="pl-10 pr-4 py-2 w-64 border border-input dark:border-gray-700 rounded-xl bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm focus:ring-2 focus:ring-primary focus:border-transparent text-gray-800 dark:placeholder-gray-500"
                 />
               </div>
             </div>

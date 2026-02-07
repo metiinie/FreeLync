@@ -130,7 +130,7 @@ const UserProfile: React.FC<UserProfileProps> = ({
         setListings(userListings);
         setStats({
           totalListings: userListings.length,
-          activeListings: userListings.filter(l => l.status === 'approved').length,
+          activeListings: userListings.filter(l => l.status === 'approved' || l.status === 'pending').length,
           totalViews: userListings.reduce((sum, l) => sum + (l.views || 0), 0),
           averageRating: 4.8,
           totalSales: userListings.filter(l => l.status === 'sold').length
@@ -149,7 +149,7 @@ const UserProfile: React.FC<UserProfileProps> = ({
       const result = await UsersService.updateUser(user.id, {
         full_name: editData.full_name,
         phone: editData.phone,
-        address: editData.address
+        address: { city: editData.address, subcity: '' }
       });
       if (result.success) {
         toast.success('Settings updated successfully');
@@ -417,7 +417,9 @@ const UserProfile: React.FC<UserProfileProps> = ({
                       <div className="relative h-56">
                         <img src={l.images[0]?.url} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="" />
                         <div className="absolute top-6 left-6 flex gap-2">
-                          <Badge className={`${l.status === 'approved' ? 'bg-green-500' : 'bg-amber-500'} text-white border-none px-4 py-1.5 rounded-full text-[10px] font-black uppercase shadow-lg`}>{l.status}</Badge>
+                          <Badge className={`${(l.status === 'approved' || l.status === 'pending') ? 'bg-green-500' : 'bg-red-500'} text-white border-none px-4 py-1.5 rounded-full text-[10px] font-black uppercase shadow-lg`}>
+                            {(l.status === 'approved' || l.status === 'pending') ? 'Active' : l.status}
+                          </Badge>
                         </div>
                         <div className="absolute bottom-6 right-6 p-3 bg-white/80 backdrop-blur rounded-full text-gray-900 opacity-0 group-hover:opacity-100 transition-opacity"><Edit className="w-5 h-5" /></div>
                       </div>

@@ -183,15 +183,36 @@ export class ListingsService extends BaseService {
 
   // Get all listings for admin (including pending)
   static async getAllListingsForAdmin(
+    filters: SearchFilters = {},
     pagination: { page: number; limit: number } = { page: 1, limit: 100 }
   ): Promise<{ success: boolean; data: Listing[]; total: number; message?: string }> {
-    // Admin endpoint might be separate or handled via filters + role in backend
-    return this.getListings({}, pagination);
+    return this.getListings(filters, pagination);
+  }
+
+  // Update listing status (Admin only)
+  static async updateListingStatus(
+    id: string,
+    status: string,
+    notes?: string
+  ): Promise<ServiceResponse> {
+    try {
+      const response = await api.patch(endpoints.listings.updateStatus(id), {
+        status,
+        notes
+      });
+      return response.data;
+    } catch (error: any) {
+      return this.handleError(error, 'updateListingStatus');
+    }
   }
 
   // Get listing statistics
-  static async getListingStats(): Promise<{ success: boolean; data: unknown; message?: string }> {
-    // Needs specific backend endpoint
-    return { success: false, data: null, message: "Not implemented in migration yet" };
+  static async getListingStats(): Promise<{ success: boolean; data: any; message?: string }> {
+    try {
+      const response = await api.get('/listings/stats');
+      return response.data;
+    } catch (error: any) {
+      return { success: false, data: null, message: error.message };
+    }
   }
 }

@@ -38,6 +38,55 @@ let UsersService = class UsersService {
             data,
         });
     }
+    async findAll(options) {
+        const { page, limit, search, role, verified, is_active } = options;
+        const skip = (page - 1) * limit;
+        const where = {};
+        if (role)
+            where.role = role;
+        if (verified !== undefined)
+            where.verified = verified;
+        if (is_active !== undefined)
+            where.is_active = is_active;
+        if (search) {
+            where.OR = [
+                { full_name: { contains: search, mode: 'insensitive' } },
+                { email: { contains: search, mode: 'insensitive' } },
+            ];
+        }
+        const [data, total] = await Promise.all([
+            this.prisma.user.findMany({
+                where,
+                skip,
+                take: limit,
+                orderBy: { created_at: 'desc' },
+                select: {
+                    id: true,
+                    email: true,
+                    full_name: true,
+                    phone: true,
+                    role: true,
+                    verified: true,
+                    avatar_url: true,
+                    is_active: true,
+                    created_at: true,
+                }
+            }),
+            this.prisma.user.count({ where }),
+        ]);
+        return { data, total, success: true };
+    }
+    async getStats() {
+        const [total, verified, active] = await Promise.all([
+            this.prisma.user.count(),
+            this.prisma.user.count({ where: { verified: true } }),
+            this.prisma.user.count({ where: { is_active: true } }),
+        ]);
+        return {
+            success: true,
+            data: { total, verified, active }
+        };
+    }
 };
 exports.UsersService = UsersService;
 exports.UsersService = UsersService = __decorate([

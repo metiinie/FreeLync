@@ -231,7 +231,7 @@ const VerifyListings: React.FC<VerifyListingsProps> = ({
           <select
             value={filterType}
             onChange={(e) => setFilterType(e.target.value)}
-            className="border border-gray-300 rounded-md px-3 py-2 text-sm"
+            className="border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-800"
           >
             <option value="all">All Types</option>
             <option value="sale">Sale</option>
@@ -241,7 +241,7 @@ const VerifyListings: React.FC<VerifyListingsProps> = ({
           <select
             value={filterCategory}
             onChange={(e) => setFilterCategory(e.target.value)}
-            className="border border-gray-300 rounded-md px-3 py-2 text-sm"
+            className="border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-800"
           >
             <option value="all">All Categories</option>
             <option value="residential">Residential</option>
@@ -253,7 +253,7 @@ const VerifyListings: React.FC<VerifyListingsProps> = ({
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
-            className="border border-gray-300 rounded-md px-3 py-2 text-sm"
+            className="border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-800"
           >
             <option value="created_at">Sort by Date</option>
             <option value="title">Sort by Title</option>

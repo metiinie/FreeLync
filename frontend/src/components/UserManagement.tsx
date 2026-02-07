@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { 
-  Users, 
-  UserCheck, 
-  UserX, 
-  Search, 
-  Filter, 
-  Download, 
+import {
+  Users,
+  UserCheck,
+  UserX,
+  Search,
+  Filter,
+  Download,
   RefreshCw,
   Eye,
   Edit,
@@ -60,24 +60,24 @@ const UserManagement: React.FC<UserManagementProps> = ({
 
   const filteredUsers = users
     .filter(user => {
-      const matchesSearch = searchTerm === '' || 
+      const matchesSearch = searchTerm === '' ||
         user.full_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
         user.phone?.toLowerCase().includes(searchTerm.toLowerCase());
-      
+
       const matchesRole = filterRole === 'all' || user.role === filterRole;
-      
-      const matchesStatus = filterStatus === 'all' || 
+
+      const matchesStatus = filterStatus === 'all' ||
         (filterStatus === 'verified' && user.verified) ||
         (filterStatus === 'pending' && !user.verified) ||
         (filterStatus === 'suspended' && !user.is_active);
-      
+
       return matchesSearch && matchesRole && matchesStatus;
     })
     .sort((a, b) => {
       const aValue = a[sortBy as keyof User];
       const bValue = b[sortBy as keyof User];
-      
+
       if (sortOrder === 'asc') {
         return aValue > bValue ? 1 : -1;
       } else {
@@ -86,8 +86,8 @@ const UserManagement: React.FC<UserManagementProps> = ({
     });
 
   const handleSelectUser = (userId: string) => {
-    setSelectedUsers(prev => 
-      prev.includes(userId) 
+    setSelectedUsers(prev =>
+      prev.includes(userId)
         ? prev.filter(id => id !== userId)
         : [...prev, userId]
     );
@@ -121,10 +121,10 @@ const UserManagement: React.FC<UserManagementProps> = ({
   };
 
   const handleExport = () => {
-    const csvData = filteredUsers.map(user => 
+    const csvData = filteredUsers.map(user =>
       `${user.full_name},${user.email},${user.phone || ''},${user.role},${user.verified},${user.is_active}`
     ).join('\n');
-    
+
     const blob = new Blob([csvData], { type: 'text/csv' });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -132,7 +132,7 @@ const UserManagement: React.FC<UserManagementProps> = ({
     a.download = 'users.csv';
     a.click();
     window.URL.revokeObjectURL(url);
-    
+
     toast.success('Users exported successfully');
   };
 
@@ -233,7 +233,7 @@ const UserManagement: React.FC<UserManagementProps> = ({
           <select
             value={filterRole}
             onChange={(e) => setFilterRole(e.target.value)}
-            className="border border-gray-300 rounded-md px-3 py-2 text-sm"
+            className="border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-800"
           >
             <option value="all">All Roles</option>
             <option value="admin">Admin</option>
@@ -244,7 +244,7 @@ const UserManagement: React.FC<UserManagementProps> = ({
           <select
             value={filterStatus}
             onChange={(e) => setFilterStatus(e.target.value)}
-            className="border border-gray-300 rounded-md px-3 py-2 text-sm"
+            className="border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-800"
           >
             <option value="all">All Status</option>
             <option value="verified">Verified</option>
@@ -255,7 +255,7 @@ const UserManagement: React.FC<UserManagementProps> = ({
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
-            className="border border-gray-300 rounded-md px-3 py-2 text-sm"
+            className="border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-800"
           >
             <option value="created_at">Sort by Date</option>
             <option value="full_name">Sort by Name</option>
@@ -340,7 +340,7 @@ const UserManagement: React.FC<UserManagementProps> = ({
                         onChange={() => handleSelectUser(user.id)}
                         className="mt-1"
                       />
-                      
+
                       <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center">
                         {user.avatar_url ? (
                           <img
@@ -352,7 +352,7 @@ const UserManagement: React.FC<UserManagementProps> = ({
                           <Users className="h-6 w-6 text-gray-500" />
                         )}
                       </div>
-                      
+
                       <div className="flex-1">
                         <div className="flex items-center space-x-2 mb-1">
                           <h3 className="font-medium text-gray-900">{user.full_name}</h3>
@@ -363,7 +363,7 @@ const UserManagement: React.FC<UserManagementProps> = ({
                             {user.role}
                           </Badge>
                         </div>
-                        
+
                         <div className="flex items-center space-x-4 text-sm text-gray-600">
                           <div className="flex items-center">
                             <Mail className="h-4 w-4 mr-1" />

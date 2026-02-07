@@ -57,6 +57,14 @@ export declare class TransactionsController {
         seller_id: string;
         buyer_id: string;
     })[]>;
+    getStats(): Promise<{
+        success: boolean;
+        data: {
+            total: number;
+            totalVolume: number;
+            totalCommissions: number;
+        };
+    }>;
     findOne(id: string, req: any): Promise<{
         listing: {
             id: string;

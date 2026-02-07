@@ -174,7 +174,7 @@ const ListingWizard: React.FC<ListingWizardProps> = ({ onComplete, onCancel }) =
       }
 
       const { rentPeriod, images, documents, ...listingDataWithoutFiles } = listingData;
-      
+
       const finalListingData = {
         ...listingDataWithoutFiles,
         rent_period: rentPeriod, // Convert camelCase to snake_case
@@ -191,8 +191,8 @@ const ListingWizard: React.FC<ListingWizardProps> = ({ onComplete, onCancel }) =
           public_id: `${user?.id}/${Date.now()}/${listingData.documents[index]?.name || 'document'}`
         })),
         owner_id: user?.id,
-        status: 'pending',
-        verified: false,
+        status: 'approved',
+        verified: true,
         views: 0,
         is_active: true
       };
@@ -216,22 +216,20 @@ const ListingWizard: React.FC<ListingWizardProps> = ({ onComplete, onCancel }) =
               <div className="grid grid-cols-2 gap-4">
                 <button
                   onClick={() => setListingData(prev => ({ ...prev, type: 'sale' }))}
-                  className={`p-4 border-2 rounded-lg text-left transition-all ${
-                    listingData.type === 'sale'
-                      ? 'border-blue-500 bg-blue-50 text-blue-700'
-                      : 'border-gray-200 hover:border-gray-300'
-                  }`}
+                  className={`p-4 border-2 rounded-lg text-left transition-all ${listingData.type === 'sale'
+                    ? 'border-blue-500 bg-blue-50 text-blue-700'
+                    : 'border-gray-200 hover:border-gray-300'
+                    }`}
                 >
                   <div className="font-semibold">For Sale</div>
                   <div className="text-sm text-gray-600">Sell your property</div>
                 </button>
                 <button
                   onClick={() => setListingData(prev => ({ ...prev, type: 'rent' }))}
-                  className={`p-4 border-2 rounded-lg text-left transition-all ${
-                    listingData.type === 'rent'
-                      ? 'border-blue-500 bg-blue-50 text-blue-700'
-                      : 'border-gray-200 hover:border-gray-300'
-                  }`}
+                  className={`p-4 border-2 rounded-lg text-left transition-all ${listingData.type === 'rent'
+                    ? 'border-blue-500 bg-blue-50 text-blue-700'
+                    : 'border-gray-200 hover:border-gray-300'
+                    }`}
                 >
                   <div className="font-semibold">For Rent</div>
                   <div className="text-sm text-gray-600">Rent your property</div>
@@ -246,11 +244,10 @@ const ListingWizard: React.FC<ListingWizardProps> = ({ onComplete, onCancel }) =
                   <button
                     key={key}
                     onClick={() => setListingData(prev => ({ ...prev, category: key, subcategory: '' }))}
-                    className={`p-3 border rounded-lg text-center transition-all ${
-                      listingData.category === key
-                        ? 'border-blue-500 bg-blue-50 text-blue-700'
-                        : 'border-gray-200 hover:border-gray-300'
-                    }`}
+                    className={`p-3 border rounded-lg text-center transition-all ${listingData.category === key
+                      ? 'border-blue-500 bg-blue-50 text-blue-700'
+                      : 'border-gray-200 hover:border-gray-300'
+                      }`}
                   >
                     {category.label}
                   </button>
@@ -267,11 +264,10 @@ const ListingWizard: React.FC<ListingWizardProps> = ({ onComplete, onCancel }) =
                     <button
                       key={sub}
                       onClick={() => setListingData(prev => ({ ...prev, subcategory: sub }))}
-                      className={`p-3 border rounded-lg text-center transition-all ${
-                        listingData.subcategory === sub
-                          ? 'border-blue-500 bg-blue-50 text-blue-700'
-                          : 'border-gray-200 hover:border-gray-300'
-                      }`}
+                      className={`p-3 border rounded-lg text-center transition-all ${listingData.subcategory === sub
+                        ? 'border-blue-500 bg-blue-50 text-blue-700'
+                        : 'border-gray-200 hover:border-gray-300'
+                        }`}
                     >
                       {sub}
                     </button>
@@ -308,9 +304,8 @@ const ListingWizard: React.FC<ListingWizardProps> = ({ onComplete, onCancel }) =
                 onChange={(e) => setListingData(prev => ({ ...prev, description: e.target.value }))}
                 placeholder="Describe your property in detail. Include key features, amenities, and any important information..."
                 rows={6}
-                className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none ${
-                  errors.description ? 'border-red-500' : 'border-gray-300'
-                }`}
+                className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none text-gray-800 ${errors.description ? 'border-red-500' : 'border-gray-300'
+                  }`}
               />
               <div className="flex justify-between text-sm text-gray-500 mt-1">
                 <span>{errors.description || 'Be detailed and honest about your property'}</span>
@@ -344,9 +339,8 @@ const ListingWizard: React.FC<ListingWizardProps> = ({ onComplete, onCancel }) =
                 <select
                   value={listingData.rentPeriod || ''}
                   onChange={(e) => setListingData(prev => ({ ...prev, rentPeriod: e.target.value }))}
-                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                    errors.rentPeriod ? 'border-red-500' : 'border-gray-300'
-                  }`}
+                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-800 ${errors.rentPeriod ? 'border-red-500' : 'border-gray-300'
+                    }`}
                 >
                   <option value="">Select rental period</option>
                   <option value="daily">Daily</option>
@@ -363,7 +357,7 @@ const ListingWizard: React.FC<ListingWizardProps> = ({ onComplete, onCancel }) =
               <select
                 value={listingData.currency}
                 onChange={(e) => setListingData(prev => ({ ...prev, currency: e.target.value }))}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-800"
               >
                 <option value="ETB">Ethiopian Birr (ETB)</option>
                 <option value="USD">US Dollar (USD)</option>
@@ -380,8 +374,8 @@ const ListingWizard: React.FC<ListingWizardProps> = ({ onComplete, onCancel }) =
               <label className="block text-sm font-medium text-gray-700 mb-2">Address</label>
               <Input
                 value={listingData.location.address}
-                onChange={(e) => setListingData(prev => ({ 
-                  ...prev, 
+                onChange={(e) => setListingData(prev => ({
+                  ...prev,
                   location: { ...prev.location, address: e.target.value }
                 }))}
                 placeholder="Enter the full address"
@@ -395,8 +389,8 @@ const ListingWizard: React.FC<ListingWizardProps> = ({ onComplete, onCancel }) =
                 <label className="block text-sm font-medium text-gray-700 mb-2">City</label>
                 <Input
                   value={listingData.location.city}
-                  onChange={(e) => setListingData(prev => ({ 
-                    ...prev, 
+                  onChange={(e) => setListingData(prev => ({
+                    ...prev,
                     location: { ...prev.location, city: e.target.value }
                   }))}
                   placeholder="e.g., Addis Ababa"
@@ -409,8 +403,8 @@ const ListingWizard: React.FC<ListingWizardProps> = ({ onComplete, onCancel }) =
                 <label className="block text-sm font-medium text-gray-700 mb-2">Subcity</label>
                 <Input
                   value={listingData.location.subcity}
-                  onChange={(e) => setListingData(prev => ({ 
-                    ...prev, 
+                  onChange={(e) => setListingData(prev => ({
+                    ...prev,
                     location: { ...prev.location, subcity: e.target.value }
                   }))}
                   placeholder="e.g., Bole"
@@ -424,8 +418,8 @@ const ListingWizard: React.FC<ListingWizardProps> = ({ onComplete, onCancel }) =
               <label className="block text-sm font-medium text-gray-700 mb-2">Woreda (Optional)</label>
               <Input
                 value={listingData.location.woreda || ''}
-                onChange={(e) => setListingData(prev => ({ 
-                  ...prev, 
+                onChange={(e) => setListingData(prev => ({
+                  ...prev,
                   location: { ...prev.location, woreda: e.target.value }
                 }))}
                 placeholder="e.g., Bole 01"
@@ -442,8 +436,8 @@ const ListingWizard: React.FC<ListingWizardProps> = ({ onComplete, onCancel }) =
               <FileUpload
                 files={listingData.images}
                 onUpload={handleImageUpload}
-                onRemove={(index) => setListingData(prev => ({ 
-                  ...prev, 
+                onRemove={(index) => setListingData(prev => ({
+                  ...prev,
                   images: prev.images.filter((_, i) => i !== index)
                 }))}
                 maxFiles={10}
@@ -459,8 +453,8 @@ const ListingWizard: React.FC<ListingWizardProps> = ({ onComplete, onCancel }) =
               <FileUpload
                 files={listingData.documents}
                 onUpload={handleDocumentUpload}
-                onRemove={(index) => setListingData(prev => ({ 
-                  ...prev, 
+                onRemove={(index) => setListingData(prev => ({
+                  ...prev,
                   documents: prev.documents.filter((_, i) => i !== index)
                 }))}
                 maxFiles={5}
@@ -480,7 +474,7 @@ const ListingWizard: React.FC<ListingWizardProps> = ({ onComplete, onCancel }) =
           <div className="space-y-6">
             <div className="bg-gray-50 rounded-lg p-6">
               <h3 className="text-lg font-semibold mb-4">Review Your Listing</h3>
-              
+
               <div className="space-y-4">
                 <div>
                   <span className="font-medium">Type:</span> {listingData.type === 'sale' ? 'For Sale' : 'For Rent'}
@@ -508,12 +502,11 @@ const ListingWizard: React.FC<ListingWizardProps> = ({ onComplete, onCancel }) =
             </div>
 
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-              <h4 className="font-semibold text-blue-900 mb-2">What happens next?</h4>
+              <h4 className="font-semibold text-blue-900 mb-2">Listing Visibility</h4>
               <ul className="text-sm text-blue-800 space-y-1">
-                <li>• Your listing will be reviewed by our team</li>
-                <li>• You'll receive an email notification within 24 hours</li>
-                <li>• Once approved, your listing will go live</li>
-                <li>• You can edit or delete your listing anytime</li>
+                <li>• Your listing will be immediately visible to all users</li>
+                <li>• You can edit or delete your listing anytime from your dashboard</li>
+                <li>• Verification marks might be added by admins later</li>
               </ul>
             </div>
           </div>
@@ -531,11 +524,10 @@ const ListingWizard: React.FC<ListingWizardProps> = ({ onComplete, onCancel }) =
         <div className="flex items-center justify-between mb-4">
           {steps.map((step, index) => (
             <div key={step.id} className="flex items-center">
-              <div className={`flex items-center justify-center w-10 h-10 rounded-full border-2 ${
-                currentStep >= step.id
-                  ? 'bg-blue-600 border-blue-600 text-white'
-                  : 'border-gray-300 text-gray-400'
-              }`}>
+              <div className={`flex items-center justify-center w-10 h-10 rounded-full border-2 ${currentStep >= step.id
+                ? 'bg-blue-600 border-blue-600 text-white'
+                : 'border-gray-300 text-gray-400'
+                }`}>
                 {currentStep > step.id ? (
                   <Check className="w-5 h-5" />
                 ) : (
@@ -543,14 +535,13 @@ const ListingWizard: React.FC<ListingWizardProps> = ({ onComplete, onCancel }) =
                 )}
               </div>
               {index < steps.length - 1 && (
-                <div className={`w-16 h-0.5 mx-2 ${
-                  currentStep > step.id ? 'bg-blue-600' : 'bg-gray-300'
-                }`} />
+                <div className={`w-16 h-0.5 mx-2 ${currentStep > step.id ? 'bg-blue-600' : 'bg-gray-300'
+                  }`} />
               )}
             </div>
           ))}
         </div>
-        
+
         <div className="text-center">
           <h2 className="text-xl font-semibold text-gray-900">
             {steps[currentStep - 1].title}
@@ -594,8 +585,8 @@ const ListingWizard: React.FC<ListingWizardProps> = ({ onComplete, onCancel }) =
               <ChevronRight className="w-4 h-4 ml-2" />
             </Button>
           ) : (
-            <Button 
-              onClick={handleSubmit} 
+            <Button
+              onClick={handleSubmit}
               disabled={isSubmitting}
               className="flex items-center bg-green-600 hover:bg-green-700"
             >

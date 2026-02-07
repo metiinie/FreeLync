@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { 
-  X, 
-  Mail, 
-  Phone, 
-  MapPin, 
-  Calendar, 
-  Shield, 
-  Star, 
+import {
+  X,
+  Mail,
+  Phone,
+  MapPin,
+  Calendar,
+  Shield,
+  Star,
   Edit,
   Save,
   User,
@@ -133,7 +133,7 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
                   {isEditing ? (
                     <Input
                       value={editedUser.full_name}
-                      onChange={(e) => setEditedUser({...editedUser, full_name: e.target.value})}
+                      onChange={(e) => setEditedUser({ ...editedUser, full_name: e.target.value })}
                       className="text-xl font-semibold"
                     />
                   ) : (
@@ -161,7 +161,7 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
                 {isEditing ? (
                   <Input
                     value={editedUser.email}
-                    onChange={(e) => setEditedUser({...editedUser, email: e.target.value})}
+                    onChange={(e) => setEditedUser({ ...editedUser, email: e.target.value })}
                   />
                 ) : (
                   <div className="flex items-center text-gray-900">
@@ -175,7 +175,7 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
                 {isEditing ? (
                   <Input
                     value={editedUser.phone || ''}
-                    onChange={(e) => setEditedUser({...editedUser, phone: e.target.value})}
+                    onChange={(e) => setEditedUser({ ...editedUser, phone: e.target.value })}
                   />
                 ) : (
                   <div className="flex items-center text-gray-900">
@@ -203,8 +203,8 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
               {isEditing ? (
                 <select
                   value={editedUser.role}
-                  onChange={(e) => setEditedUser({...editedUser, role: e.target.value as 'buyer' | 'seller' | 'admin'})}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2"
+                  onChange={(e) => setEditedUser({ ...editedUser, role: e.target.value as 'buyer' | 'seller' | 'admin' })}
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 text-gray-800"
                 >
                   <option value="buyer">Buyer</option>
                   <option value="seller">Seller</option>
@@ -225,8 +225,8 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
                 {isEditing ? (
                   <select
                     value={editedUser.verified ? 'verified' : 'pending'}
-                    onChange={(e) => setEditedUser({...editedUser, verified: e.target.value === 'verified'})}
-                    className="w-full border border-gray-300 rounded-md px-3 py-2"
+                    onChange={(e) => setEditedUser({ ...editedUser, verified: e.target.value === 'verified' })}
+                    className="w-full border border-gray-300 rounded-md px-3 py-2 text-gray-800"
                   >
                     <option value="pending">Pending</option>
                     <option value="verified">Verified</option>
@@ -247,8 +247,8 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
                 {isEditing ? (
                   <select
                     value={editedUser.is_active ? 'active' : 'suspended'}
-                    onChange={(e) => setEditedUser({...editedUser, is_active: e.target.value === 'active'})}
-                    className="w-full border border-gray-300 rounded-md px-3 py-2"
+                    onChange={(e) => setEditedUser({ ...editedUser, is_active: e.target.value === 'active' })}
+                    className="w-full border border-gray-300 rounded-md px-3 py-2 text-gray-800"
                   >
                     <option value="active">Active</option>
                     <option value="suspended">Suspended</option>

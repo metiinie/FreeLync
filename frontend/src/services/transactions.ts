@@ -120,8 +120,12 @@ export class TransactionsService {
 
   // Get transaction statistics
   static async getTransactionStats(): Promise<{ success: boolean; data: any; message?: string }> {
-    // Needs backend endpoint
-    return { success: false, data: null, message: "Stats Not Implemented" };
+    try {
+      const response = await api.get('/transactions/stats');
+      return response.data;
+    } catch (error: any) {
+      return { success: false, data: null, message: error.message };
+    }
   }
 
   // Get pending escrow transactions
