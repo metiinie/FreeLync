@@ -29,7 +29,7 @@ export class FavoritesService {
       // Or we fetch all favorites and check match on client if list is small, or backend has specific check endpoint
       // Assuming GET /favorites returns list of favorites 
       const response = await api.get(endpoints.favorites.list);
-      const isFavorited = (response.data || []).some((fav: any) => fav.listing_id === listingId); // simple client filter if list small
+      const isFavorited = (response.data || []).some((fav: any) => (fav.listing_id || fav.listingId) === listingId);
 
       return { success: true, isFavorited };
     } catch (error: any) {

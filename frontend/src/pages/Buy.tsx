@@ -107,7 +107,7 @@ const Buy: React.FC = () => {
     try {
       const response = await FavoritesService.getUserFavorites(user.id);
       if (response.success) {
-        setUserFavorites(response.data.map(fav => fav.listing_id));
+        setUserFavorites(response.data.map(fav => fav.listing_id || (fav as any).listingId));
       }
     } catch (err) {
       console.error('Error loading favorites:', err);
@@ -155,21 +155,30 @@ const Buy: React.FC = () => {
     }
 
     try {
+      console.log('Toggling favorite:', listingId);
       const isFav = userFavorites.includes(listingId);
+
       if (isFav) {
         const res = await FavoritesService.removeFromFavorites(user.id, listingId);
         if (res.success) {
           setUserFavorites(prev => prev.filter(id => id !== listingId));
           toast.success('Removed from favorites');
+        } else {
+          console.error('Remove favorite failed:', res);
+          toast.error(res.message || 'Failed to remove from favorites');
         }
       } else {
         const res = await FavoritesService.addToFavorites(user.id, listingId);
         if (res.success) {
           setUserFavorites(prev => [...prev, listingId]);
           toast.success('Added to favorites');
+        } else {
+          console.error('Add favorite failed:', res);
+          toast.error(res.message || 'Failed to add to favorites');
         }
       }
     } catch (err) {
+      console.error('Toggle favorite error:', err);
       toast.error('Failed to update favorites');
     }
   };

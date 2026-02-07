@@ -27,8 +27,10 @@ import { api, endpoints, getMediaUrl } from '../services/api';
 import { Listing, User as UserType } from '../types';
 import { formatPrice, formatRelativeTime, getCategoryIcon } from '../lib/utils';
 import logoImage from '../components/Images/Logo.png';
+import { useAuth } from '../contexts/AuthContext';
 
 const Home: React.FC = () => {
+  const { isAuthenticated } = useAuth();
   const [featuredListings, setFeaturedListings] = useState<Listing[]>([]);
   const [stats, setStats] = useState({
     totalUsers: 0,
@@ -378,7 +380,7 @@ const Home: React.FC = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button asChild size="lg" variant="glass" className="text-foreground">
-                <Link to="/register">
+                <Link to={isAuthenticated ? "/buy" : "/register"}>
                   Get Started Now
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
