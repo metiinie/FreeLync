@@ -1,11 +1,13 @@
 import { NavLink } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { 
-  Home, 
-  ShoppingCart, 
-  Plus, 
-  User, 
-  Bell
+import {
+  Home,
+  ShoppingCart,
+  Plus,
+  User,
+  Bell,
+  Activity,
+  Mail
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useNotifications } from '../contexts/NotificationContext';
@@ -16,10 +18,10 @@ const MobileNav = () => {
 
   const navItems = [
     { name: 'Home', href: '/', icon: Home },
-    { name: 'Buy', href: '/buy', icon: ShoppingCart },
-    { name: 'Rent', href: '/rent', icon: ShoppingCart },
+    { name: 'Browse', href: '/buy', icon: ShoppingCart },
+    { name: 'Activity', href: '/dashboard', icon: Activity },
+    { name: 'Contact', href: '/contact', icon: Mail },
     ...(isAuthenticated ? [
-      { name: 'Sell', href: '/sell', icon: Plus },
       { name: 'Profile', href: '/profile', icon: User },
     ] : []),
   ];
@@ -41,10 +43,9 @@ const MobileNav = () => {
             <NavLink
               to={item.href}
               className={({ isActive }) =>
-                `flex flex-col items-center space-y-1 p-2 rounded-lg transition-colors ${
-                  isActive
-                    ? 'text-blue-600 bg-blue-50'
-                    : 'text-gray-600 hover:text-gray-900'
+                `flex flex-col items-center space-y-1 p-2 rounded-lg transition-colors ${isActive
+                  ? 'text-blue-600 bg-blue-50'
+                  : 'text-gray-600 hover:text-gray-900'
                 }`
               }
             >

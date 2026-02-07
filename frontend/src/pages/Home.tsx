@@ -23,7 +23,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../co
 import { Badge } from '../components/ui/badge';
 import { Input } from '../components/ui/input';
 import { ListingsService } from '../services/listings';
-import { api, endpoints } from '../services/api';
+import { api, endpoints, getMediaUrl } from '../services/api';
 import { Listing, User as UserType } from '../types';
 import { formatPrice, formatRelativeTime, getCategoryIcon } from '../lib/utils';
 import logoImage from '../components/Images/Logo.png';
@@ -166,24 +166,7 @@ const Home: React.FC = () => {
               </Button>
             </motion.div>
 
-            {/* Quick Search */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-              className="max-w-2xl mx-auto"
-            >
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
-                <Input
-                  placeholder="Search for cars, houses, land..."
-                  className="pl-10 pr-4 py-3 text-lg rounded-full dark:bg-gray-800 dark:border-gray-700 text-gray-800"
-                />
-                <Button className="absolute right-2 top-1/2 transform -translate-y-1/2 rounded-full">
-                  Search
-                </Button>
-              </div>
-            </motion.div>
+            {/* Removed Quick Search as it's moving to the header */}
           </motion.div>
         </div>
 
@@ -195,58 +178,8 @@ const Home: React.FC = () => {
         </div>
       </div>
 
-      {/* Stats Section */}
-      <div className="py-16 bg-white dark:bg-gray-800 transition-colors duration-300">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-8"
-          >
-            <motion.div variants={itemVariants} className="text-center">
-              <div className="text-3xl md:text-4xl font-bold text-[#0B132B] dark:text-white mb-2">
-                {loading ? '...' : stats.totalUsers.toLocaleString()}
-              </div>
-              <div className="text-gray-600 dark:text-gray-400 flex items-center justify-center">
-                <Users className="h-4 w-4 mr-1" />
-                Verified Users
-              </div>
-            </motion.div>
+      {/* Stats Section Removed */}
 
-            <motion.div variants={itemVariants} className="text-center">
-              <div className="text-3xl md:text-4xl font-bold text-[#0B132B] dark:text-white mb-2">
-                {loading ? '...' : stats.totalListings.toLocaleString()}
-              </div>
-              <div className="text-gray-600 dark:text-gray-400 flex items-center justify-center">
-                <Building className="h-4 w-4 mr-1" />
-                Active Listings
-              </div>
-            </motion.div>
-
-            <motion.div variants={itemVariants} className="text-center">
-              <div className="text-3xl md:text-4xl font-bold text-[#0B132B] dark:text-white mb-2">
-                {loading ? '...' : stats.totalTransactions.toLocaleString()}
-              </div>
-              <div className="text-gray-600 dark:text-gray-400 flex items-center justify-center">
-                <TrendingUp className="h-4 w-4 mr-1" />
-                Completed Deals
-              </div>
-            </motion.div>
-
-            <motion.div variants={itemVariants} className="text-center">
-              <div className="text-3xl md:text-4xl font-bold text-[#0B132B] dark:text-white mb-2">
-                {loading ? '...' : formatPrice(stats.totalValue)}
-              </div>
-              <div className="text-gray-600 dark:text-gray-400 flex items-center justify-center">
-                <Award className="h-4 w-4 mr-1" />
-                Total Value
-              </div>
-            </motion.div>
-          </motion.div>
-        </div>
-      </div>
 
       {/* Featured Listings */}
       <div className="py-20 bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
@@ -283,7 +216,7 @@ const Home: React.FC = () => {
                 <Card className="group hover:shadow-glow transition-transform duration-300 overflow-hidden hover:-translate-y-1">
                   <div className="relative">
                     <img
-                      src={listing.images[0]?.url || '/placeholder-image.jpg'}
+                      src={getMediaUrl(listing.images[0]?.url)}
                       alt={listing.title}
                       className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
                     />

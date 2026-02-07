@@ -48,6 +48,7 @@ import { ListingsService } from '../services/listings';
 import { UploadService } from '../services/upload';
 import { UsersService } from '../services/users';
 import { Listing } from '../types';
+import { getMediaUrl } from '../services/api';
 
 interface UserProfileProps {
   userId?: string;
@@ -224,7 +225,7 @@ const UserProfile: React.FC<UserProfileProps> = ({
                 className="w-40 h-40 rounded-[2.5rem] border-8 border-white dark:border-gray-900 bg-white dark:bg-gray-900 shadow-2xl overflow-hidden cursor-pointer relative"
               >
                 {profileUser.avatar_url && !avatarError ? (
-                  <img src={profileUser.avatar_url} alt="" className="w-full h-full object-cover transition-transform group-hover:scale-110" onError={() => setAvatarError(true)} />
+                  <img src={getMediaUrl(profileUser.avatar_url)} alt="" className="w-full h-full object-cover transition-transform group-hover:scale-110" onError={() => setAvatarError(true)} />
                 ) : (
                   <div className="w-full h-full bg-blue-600 flex items-center justify-center text-white text-5xl font-black">
                     {profileUser.full_name?.charAt(0).toUpperCase() || 'U'}
@@ -384,7 +385,7 @@ const UserProfile: React.FC<UserProfileProps> = ({
                       {listings.slice(0, 4).map(listing => (
                         <Card key={listing.id} className="overflow-hidden rounded-3xl border-gray-100 shadow-sm hover:shadow-xl transition-all group cursor-pointer" onClick={() => navigate(`/listing/${listing.id}`)}>
                           <div className="relative h-48 overflow-hidden">
-                            <img src={listing.images[0]?.url} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" alt="" />
+                            <img src={getMediaUrl(listing.images[0]?.url)} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" alt="" />
                             <div className="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-[10px] font-black text-blue-600 uppercase shadow-lg">NEW</div>
                           </div>
                           <div className="p-6">
@@ -415,7 +416,7 @@ const UserProfile: React.FC<UserProfileProps> = ({
                   {listings.map(l => (
                     <Card key={l.id} className="rounded-[2.5rem] overflow-hidden shadow-soft border-gray-50 group hover:shadow-2xl transition-all duration-300">
                       <div className="relative h-56">
-                        <img src={l.images[0]?.url} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="" />
+                        <img src={getMediaUrl(l.images[0]?.url)} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="" />
                         <div className="absolute top-6 left-6 flex gap-2">
                           <Badge className={`${(l.status === 'approved' || l.status === 'pending') ? 'bg-green-500' : 'bg-red-500'} text-white border-none px-4 py-1.5 rounded-full text-[10px] font-black uppercase shadow-lg`}>
                             {(l.status === 'approved' || l.status === 'pending') ? 'Active' : l.status}

@@ -23,7 +23,7 @@ export class UploadController {
             originalname: file.originalname,
             filename: file.filename,
             path: `uploads/${file.filename}`, // Relative path for serving
-            publicUrl: `/uploads/${file.filename}`
+            publicUrl: `/api/upload/${file.filename}`
         };
     }
 
@@ -43,8 +43,9 @@ export class UploadController {
             originalname: file.originalname,
             filename: file.filename,
             path: `uploads/${file.filename}`,
-            publicUrl: `/uploads/${file.filename}`
+            publicUrl: `/api/upload/${file.filename}`
         }));
+
     }
 
     @Get(':filename')

@@ -28,6 +28,7 @@ import { FavoritesService } from '../services/favorites';
 import { Listing } from '../types';
 import { useAuth } from '../contexts/AuthContext';
 import { toast } from 'sonner';
+import { getMediaUrl } from '../services/api';
 
 const ListingDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -260,7 +261,7 @@ const ListingDetail: React.FC = () => {
                     <>
                       <div className="relative h-96 bg-gray-100 dark:bg-gray-800">
                         <img
-                          src={listing.images[currentImageIndex].url}
+                          src={getMediaUrl(listing.images[currentImageIndex].url)}
                           alt={listing.title}
                           className="w-full h-full object-cover"
                         />
@@ -298,7 +299,7 @@ const ListingDetail: React.FC = () => {
                                   }`}
                               >
                                 <img
-                                  src={image.url}
+                                  src={getMediaUrl(image.url)}
                                   alt={`${listing.title} ${index + 1}`}
                                   className="w-full h-full object-cover"
                                 />

@@ -1,20 +1,24 @@
 import { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { Search, MapPin, Star, Heart, Eye, Loader2, AlertCircle } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { ListingsService } from '@/services/listings';
+import { FavoritesService } from '@/services/favorites';
 import { Listing, SearchFilters } from '@/types';
 import { formatPrice, formatRelativeTime, getCategoryIcon } from '@/lib/utils';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from 'sonner';
+import { getMediaUrl } from '@/services/api';
 
 const Rent: React.FC = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const searchTerm = searchParams.get('search') || '';
+
   const [listings, setListings] = useState<Listing[]>([]);
   const [loading, setLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState('');
   const [filters, setFilters] = useState<SearchFilters>({
     category: undefined,
     type: 'rent',
@@ -27,6 +31,7 @@ const Rent: React.FC = () => {
   const [pagination, setPagination] = useState({ page: 1, limit: 12 });
   const [totalCount, setTotalCount] = useState(0);
   const [error, setError] = useState<string | null>(null);
+  const [userFavorites, setUserFavorites] = useState<string[]>([]);
   const { user } = useAuth();
 
   const categories = [
@@ -99,9 +104,22 @@ const Rent: React.FC = () => {
     }
   }, [searchTerm, filters, pagination]);
 
+  const loadFavorites = useCallback(async () => {
+    if (!user) return;
+    try {
+      const response = await FavoritesService.getUserFavorites(user.id);
+      if (response.success) {
+        setUserFavorites(response.data.map(fav => fav.listing_id));
+      }
+    } catch (err) {
+      console.error('Error loading favorites:', err);
+    }
+  }, [user]);
+
   useEffect(() => {
     loadListings();
-  }, [loadListings]);
+    loadFavorites();
+  }, [loadListings, loadFavorites]);
 
   // Listen for listing deletion events from other dashboards
   useEffect(() => {
@@ -118,10 +136,7 @@ const Rent: React.FC = () => {
     };
   }, [loadListings]);
 
-  const handleSearch = () => {
-    setPagination({ ...pagination, page: 1 });
-    loadListings();
-  };
+
 
   const handleCategoryChange = (category: string) => {
     setFilters({
@@ -135,16 +150,28 @@ const Rent: React.FC = () => {
     setPagination({ ...pagination, page: pagination.page + 1 });
   };
 
-  const toggleFavorite = async () => {
+  const toggleFavorite = async (listingId: string) => {
     if (!user) {
       toast.error('Please login to add favorites');
       return;
     }
 
     try {
-      // TODO: Implement favorite functionality with Supabase
-      toast.success('Added to favorites');
-    } catch {
+      const isFav = userFavorites.includes(listingId);
+      if (isFav) {
+        const res = await FavoritesService.removeFromFavorites(user.id, listingId);
+        if (res.success) {
+          setUserFavorites(prev => prev.filter(id => id !== listingId));
+          toast.success('Removed from favorites');
+        }
+      } else {
+        const res = await FavoritesService.addToFavorites(user.id, listingId);
+        if (res.success) {
+          setUserFavorites(prev => [...prev, listingId]);
+          toast.success('Added to favorites');
+        }
+      }
+    } catch (err) {
       toast.error('Failed to update favorites');
     }
   };
@@ -152,54 +179,6 @@ const Rent: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-8"
-        >
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-            Find Your Perfect Rental
-          </h1>
-          <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            Browse through thousands of verified rental listings for cars, houses, and more
-          </p>
-        </motion.div>
-
-        {/* Search and Filters */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-        >
-          {/* Search Input with Button */}
-          <div className="mb-4 flex gap-2">
-            <div className="flex-1 relative">
-              <input
-                type="text"
-                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-gray-800 ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 pl-10"
-                placeholder="Search by title, description, or location..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-              />
-            </div>
-            <Button
-              onClick={handleSearch}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-6"
-            >
-              Search
-            </Button>
-          </div>
-
-          {/* Search Results Info */}
-          <div className="mb-4 text-center">
-            <div className="text-sm text-gray-500 dark:text-gray-400">
-              {totalCount} rental properties found
-            </div>
-          </div>
-        </motion.div>
-
         {/* Category Tabs */}
         <div className="flex space-x-1 mb-8 bg-white dark:bg-gray-800 rounded-lg p-1 shadow-sm border dark:border-gray-700 overflow-x-auto">
           {categories.map((category) => (
@@ -257,7 +236,7 @@ const Rent: React.FC = () => {
                 <Card className="group hover:shadow-xl transition-all duration-300 overflow-hidden">
                   <div className="relative">
                     <img
-                      src={listing.images[0]?.url || '/placeholder-image.jpg'}
+                      src={getMediaUrl(listing.images[0]?.url)}
                       alt={listing.title}
                       className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
                     />
@@ -315,11 +294,12 @@ const Rent: React.FC = () => {
                         </Link>
                       </Button>
                       <Button
-                        variant="outline"
+                        variant={userFavorites.includes(listing.id) ? "default" : "outline"}
                         size="icon"
-                        onClick={toggleFavorite}
+                        onClick={() => toggleFavorite(listing.id)}
+                        className={userFavorites.includes(listing.id) ? "bg-red-500 hover:bg-red-600 text-white" : "text-gray-500"}
                       >
-                        <Heart className="h-4 w-4" />
+                        <Heart className={`h-4 w-4 ${userFavorites.includes(listing.id) ? "fill-current" : ""}`} />
                       </Button>
                     </div>
                   </CardContent>
@@ -359,7 +339,7 @@ const Rent: React.FC = () => {
                     verified: undefined,
                     sortBy: 'date_desc',
                   });
-                  setSearchTerm('');
+                  setSearchParams({});
                   setPagination({ page: 1, limit: 12 });
                 }}>
                   Clear Filters

@@ -1,7 +1,14 @@
 import axios from 'axios';
 
-// Backend is running on port 3000 with global prefix 'api'
+export const API_BASE_URL = import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.replace('/api', '') : 'http://localhost:3000';
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+
+export const getMediaUrl = (path: string | null | undefined) => {
+    if (!path) return '/placeholder-image.jpg';
+    if (path.startsWith('http')) return path;
+    const cleanPath = path.startsWith('/') ? path : `/${path}`;
+    return `${API_BASE_URL}${cleanPath}`;
+};
 
 export const api = axios.create({
     baseURL: API_URL,
