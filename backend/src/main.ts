@@ -1,13 +1,20 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
+import helmet from 'helmet';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // Enable CORS
+  // Security Hardening
+  app.use(helmet({
+    crossOriginResourcePolicy: { policy: "cross-origin" }, // Needed for cross-origin images/resources
+  }));
+
+  // Enable CORS with restriction
+  const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
   app.enableCors({
-    origin: true, // Allow request origin
+    origin: [frontendUrl, 'http://localhost:5173'],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });
@@ -22,7 +29,8 @@ async function bootstrap() {
     forbidNonWhitelisted: true,
   }));
 
-  await app.listen(process.env.PORT ?? 3000);
-  console.log(`Server running on port ${process.env.PORT ?? 3000}`);
+  const port = process.env.PORT ?? 3000;
+  await app.listen(port);
+  console.log(`FreeLync API is active on port ${port}`);
 }
 bootstrap();

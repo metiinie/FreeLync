@@ -20,8 +20,12 @@ export const api = axios.create({
 // Request interceptor to add JWT token
 api.interceptors.request.use(
     (config) => {
+        const adminToken = localStorage.getItem('adminToken');
         const token = localStorage.getItem('token');
-        if (token) {
+
+        if (config.url?.startsWith('/admin/') && adminToken) {
+            config.headers.Authorization = `Bearer ${adminToken}`;
+        } else if (token) {
             config.headers.Authorization = `Bearer ${token}`;
         }
         return config;

@@ -43,6 +43,27 @@ const Home: React.FC = () => {
   useEffect(() => {
     loadFeaturedListings();
     loadStats();
+
+    const handleListingUpdate = () => {
+      loadFeaturedListings();
+      loadStats();
+    };
+
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'listing_last_update') {
+        handleListingUpdate();
+      }
+    };
+
+    window.addEventListener('listingCreated', handleListingUpdate);
+    window.addEventListener('listingDeleted', handleListingUpdate);
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('listingCreated', handleListingUpdate);
+      window.removeEventListener('listingDeleted', handleListingUpdate);
+      window.removeEventListener('storage', handleStorageChange);
+    };
   }, []);
 
   const loadFeaturedListings = async () => {

@@ -66,6 +66,14 @@ const Sell: React.FC = () => {
         toast.success('Listing created successfully! It is now live.');
         setShowWizard(false);
         loadListings();
+
+        // Dispatch event so other dashboards (Buy/Rent) can update
+        window.dispatchEvent(new CustomEvent('listingCreated', {
+          detail: { listing: response.data }
+        }));
+
+        // Update localStorage for cross-tab sync
+        localStorage.setItem('listing_last_update', Date.now().toString());
       } else {
         toast.error(response.message || 'Failed to create listing');
       }
@@ -90,6 +98,9 @@ const Sell: React.FC = () => {
         window.dispatchEvent(new CustomEvent('listingDeleted', {
           detail: { listingId, deletedAt: new Date().toISOString() }
         }));
+
+        // Update localStorage for cross-tab sync
+        localStorage.setItem('listing_last_update', Date.now().toString());
       } else {
         toast.error(response.message || 'Failed to delete listing');
         await loadListings();

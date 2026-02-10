@@ -186,15 +186,61 @@ export class ListingsService extends BaseService {
     filters: SearchFilters = {},
     pagination: { page: number; limit: number } = { page: 1, limit: 100 }
   ): Promise<{ success: boolean; data: Listing[]; total: number; message?: string }> {
-    return this.getListings(filters, pagination);
+    try {
+      const response = await api.get('/admin/listings', {
+        params: { ...filters, ...pagination }
+      });
+      return response.data;
+    } catch (error: any) {
+      return {
+        success: false,
+        data: [],
+        total: 0,
+        message: error.message || 'Failed to fetch admin listings',
+      };
+    }
   }
 
-  // Update listing status (Admin only)
+  // Approve listing (Admin)
+  static async approveListing(id: string, reason?: string, notes?: string): Promise<ServiceResponse> {
+    try {
+      const response = await api.patch(`/admin/listings/${id}/approve`, { reason, notes });
+      return response.data;
+    } catch (error: any) {
+      return this.handleError(error, 'approveListing');
+    }
+  }
+
+  // Reject listing (Admin)
+  static async rejectListing(id: string, reason: string): Promise<ServiceResponse> {
+    try {
+      const response = await api.patch(`/admin/listings/${id}/reject`, { reason });
+      return response.data;
+    } catch (error: any) {
+      return this.handleError(error, 'rejectListing');
+    }
+  }
+
+  // Delete listing as Admin
+  static async deleteListingAsAdmin(id: string, reason: string): Promise<ServiceResponse> {
+    try {
+      const response = await api.delete(`/admin/listings/${id}`, { data: { reason } });
+      return response.data;
+    } catch (error: any) {
+      return this.handleError(error, 'deleteListingAsAdmin');
+    }
+  }
+
+  // Update listing status (Legacy/General)
   static async updateListingStatus(
     id: string,
     status: string,
     notes?: string
   ): Promise<ServiceResponse> {
+    // Redirect to specific actions if applicable
+    if (status === 'approved') return this.approveListing(id, 'Approved via status update', notes);
+    if (status === 'rejected') return this.rejectListing(id, notes || 'Rejected via status update');
+
     try {
       const response = await api.patch(endpoints.listings.updateStatus(id), {
         status,

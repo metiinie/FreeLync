@@ -29,6 +29,7 @@ import VerifyListings from '../components/VerifyListings';
 import AdminDebug from '../components/AdminDebug';
 import EscrowManagement from '../components/EscrowManagement';
 import CommissionTracking from '../components/CommissionTracking';
+import DisputeManagement from '../components/DisputeManagement';
 import ErrorBoundary from '../components/ErrorBoundary';
 
 // Admin-specific interfaces - matches AdminStatsSimple interface
@@ -57,19 +58,24 @@ const AdminPanelContents: React.FC = () => {
   const [stats, setStats] = useState<AdminStats>({});
   const [users, setUsers] = useState<User[]>([]);
   const [pendingListings, setPendingListings] = useState<Listing[]>([]);
+  const isDebugEnabled = import.meta.env.VITE_ENABLE_DEBUG_PANEL === 'true';
 
   const tabs = [
     { id: 'dashboard', label: 'Dashboard', icon: BarChart3 },
     { id: 'verify-listings', label: 'Verify Listings', icon: ShoppingBag },
     { id: 'listing-status', label: 'Listing Status', icon: Shield },
     { id: 'manage-users', label: 'Manage Users', icon: Users },
-    { id: 'debug', label: 'Debug', icon: AlertTriangle },
     { id: 'manage-escrow', label: 'Manage Escrow', icon: Shield },
     { id: 'commission-tracking', label: 'Commission Tracking', icon: DollarSign },
+    { id: 'disputes', label: 'Disputes', icon: AlertTriangle },
     { id: 'notifications', label: 'Notifications', icon: Bell },
     { id: 'analytics', label: 'Analytics', icon: TrendingUp },
     { id: 'settings', label: 'Settings', icon: Settings },
   ];
+
+  if (isDebugEnabled) {
+    tabs.splice(tabs.findIndex(t => t.id === 'manage-users') + 1, 0, { id: 'debug', label: 'Debug', icon: AlertTriangle });
+  }
 
   const loadDashboardData = async () => {
     try {
@@ -253,9 +259,11 @@ const AdminPanelContents: React.FC = () => {
   };
 
   const handleDeleteListing = async (listingId: string) => {
-    if (!confirm('Are you sure you want to delete this listing? This action cannot be undone.')) return;
+    const reason = prompt('Please provide a reason for deletion:');
+    if (!reason) return;
+
     try {
-      const response = await ListingsService.deleteListing(listingId);
+      const response = await ListingsService.deleteListingAsAdmin(listingId, reason);
       if (response.success) {
         toast.success('Listing deleted successfully');
         setPendingListings(prev => prev.filter(l => l.id !== listingId));
@@ -402,6 +410,7 @@ const AdminPanelContents: React.FC = () => {
       case 'debug': return <AdminDebug listings={pendingListings} users={users} stats={stats} loading={loading} />;
       case 'manage-escrow': return <EscrowManagement loading={loading} />;
       case 'commission-tracking': return <CommissionTracking loading={loading} />;
+      case 'disputes': return <DisputeManagement loading={loading} />;
       default: return (
         <div className="text-center py-12">
           <h3 className="text-lg font-medium text-gray-900 mb-2">

@@ -13,8 +13,17 @@ export class AuthController {
     }
 
     @Post('login')
-    async login(@Body() loginDto: LoginDto) {
-        return this.authService.login(loginDto);
+    async login(@Body() loginDto: LoginDto, @Request() req) {
+        const ip = req.ip || req.connection.remoteAddress;
+        const userAgent = req.headers['user-agent'] || 'unknown';
+        return this.authService.login(loginDto, ip, userAgent);
+    }
+
+    @Post('admin/login')
+    async adminLogin(@Body() loginDto: LoginDto, @Request() req) {
+        const ip = req.ip || req.connection.remoteAddress;
+        const userAgent = req.headers['user-agent'] || 'unknown';
+        return this.authService.adminLogin(loginDto, ip, userAgent);
     }
 
     @UseGuards(JwtAuthGuard)

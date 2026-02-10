@@ -1,12 +1,21 @@
 import { Controller, Get } from '@nestjs/common';
-import { AppService } from './app.service';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor() { }
 
   @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  getStatus(): any {
+    return {
+      status: 'active',
+      message: 'FreeLync API is running',
+      version: '1.0.0',
+      timestamp: new Date().toISOString()
+    };
+  }
+
+  @Get('health')
+  getHealth(): any {
+    return { status: 'ok' };
   }
 }

@@ -186,9 +186,8 @@ const ListingDetail: React.FC = () => {
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'approved':
+      case 'pending': // Treat pending as approved/active
         return <Badge className="bg-green-100 text-green-800 flex items-center gap-1"><CheckCircle className="w-3 h-3" />Active</Badge>;
-      case 'pending':
-        return <Badge className="bg-yellow-100 text-yellow-800 flex items-center gap-1"><Clock className="w-3 h-3" />Pending</Badge>;
       case 'rejected':
         return <Badge className="bg-red-100 text-red-800 flex items-center gap-1"><XCircle className="w-3 h-3" />Rejected</Badge>;
       default:
@@ -411,7 +410,7 @@ const ListingDetail: React.FC = () => {
                 <Button
                   className="w-full bg-green-600 hover:bg-green-700"
                   onClick={handleBuyNow}
-                  disabled={processingPayment || listing.status !== 'approved'}
+                  disabled={processingPayment || (listing.status !== 'approved' && listing.status !== 'pending')}
                 >
                   {processingPayment ? (
                     <>

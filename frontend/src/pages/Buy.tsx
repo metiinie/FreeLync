@@ -119,18 +119,20 @@ const Buy: React.FC = () => {
     loadFavorites();
   }, [loadListings, loadFavorites]);
 
-  // Listen for listing deletion events from other dashboards
+  // Listen for listing updates from other dashboards
   useEffect(() => {
-    const handleListingDeleted = (event: CustomEvent) => {
-      console.log('Buy dashboard received listing deletion event:', event.detail);
-      // Refresh listings to remove the deleted item
-      loadListings();
+    const handleListingUpdate = (event: Event) => {
+      console.log('Buy dashboard received listing update event:', (event as CustomEvent).detail);
+      // Refresh listings
+      setPagination(prev => ({ ...prev, page: 1 }));
     };
 
-    window.addEventListener('listingDeleted', handleListingDeleted as EventListener);
+    window.addEventListener('listingCreated', handleListingUpdate);
+    window.addEventListener('listingDeleted', handleListingUpdate);
 
     return () => {
-      window.removeEventListener('listingDeleted', handleListingDeleted as EventListener);
+      window.removeEventListener('listingCreated', handleListingUpdate);
+      window.removeEventListener('listingDeleted', handleListingUpdate);
     };
   }, [loadListings]);
 

@@ -37,6 +37,10 @@ export class AuthService extends BaseService {
         localStorage.setItem('token', response.data.token);
       }
 
+      if (response.data.adminSessionToken) {
+        localStorage.setItem('adminToken', response.data.adminSessionToken);
+      }
+
       return {
         success: true,
         user: response.data.user,
@@ -50,6 +54,7 @@ export class AuthService extends BaseService {
   static async signOut(): Promise<{ success: boolean; message?: string }> {
     try {
       localStorage.removeItem('token');
+      localStorage.removeItem('adminToken');
       return {
         success: true,
         message: 'Logged out successfully'

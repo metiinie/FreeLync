@@ -7,7 +7,7 @@ import MobileNav from './MobileNav';
 const Layout = () => {
   return (
     <div className="min-h-screen bg-[#F8FAFC] dark:bg-gray-900 transition-colors duration-300 flex flex-col">
-      <Header onMenuClick={() => { }} />
+      <Header />
       <main className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8">
         <AnimatePresence mode="wait">
           <motion.div

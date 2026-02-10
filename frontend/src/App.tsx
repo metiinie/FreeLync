@@ -39,6 +39,9 @@ function App() {
                     <Route index element={<Home />} />
                     <Route path="login" element={<Login />} />
                     <Route path="register" element={<Register />} />
+                    <Route path="buy" element={<Buy />} />
+                    <Route path="rent" element={<Rent />} />
+                    <Route path="listing/:id" element={<ListingDetail />} />
                     <Route path="about" element={<About />} />
                     <Route path="contact" element={<Contact />} />
                     <Route path="faq" element={<FAQ />} />
@@ -46,21 +49,6 @@ function App() {
                     <Route path="terms" element={<Terms />} />
 
                     {/* Protected Routes */}
-                    <Route path="buy" element={
-                      <ProtectedRoute>
-                        <Buy />
-                      </ProtectedRoute>
-                    } />
-                    <Route path="rent" element={
-                      <ProtectedRoute>
-                        <Rent />
-                      </ProtectedRoute>
-                    } />
-                    <Route path="listing/:id" element={
-                      <ProtectedRoute>
-                        <ListingDetail />
-                      </ProtectedRoute>
-                    } />
                     <Route path="sell" element={
                       <ProtectedRoute>
                         <Sell />

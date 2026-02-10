@@ -32,6 +32,7 @@ const Rent: React.FC = () => {
   const [totalCount, setTotalCount] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const [userFavorites, setUserFavorites] = useState<string[]>([]);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
   const { user } = useAuth();
 
   const categories = [
@@ -102,7 +103,7 @@ const Rent: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  }, [searchTerm, filters, pagination]);
+  }, [searchTerm, filters, pagination, refreshTrigger]);
 
   const loadFavorites = useCallback(async () => {
     if (!user) return;
@@ -121,18 +122,28 @@ const Rent: React.FC = () => {
     loadFavorites();
   }, [loadListings, loadFavorites]);
 
-  // Listen for listing deletion events from other dashboards
+  // Listen for listing updates from other dashboards (same tab and cross-tab)
   useEffect(() => {
-    const handleListingDeleted = (event: CustomEvent) => {
-      console.log('Rent dashboard received listing deletion event:', event.detail);
-      // Refresh listings to remove the deleted item
-      loadListings();
+    const handleListingUpdate = () => {
+      console.log('Rent dashboard received listing update');
+      setRefreshTrigger(prev => prev + 1);
+      setPagination(prev => ({ ...prev, page: 1 }));
     };
 
-    window.addEventListener('listingDeleted', handleListingDeleted as EventListener);
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'listing_last_update') {
+        handleListingUpdate();
+      }
+    };
+
+    window.addEventListener('listingCreated', handleListingUpdate);
+    window.addEventListener('listingDeleted', handleListingUpdate);
+    window.addEventListener('storage', handleStorageChange);
 
     return () => {
-      window.removeEventListener('listingDeleted', handleListingDeleted as EventListener);
+      window.removeEventListener('listingCreated', handleListingUpdate);
+      window.removeEventListener('listingDeleted', handleListingUpdate);
+      window.removeEventListener('storage', handleStorageChange);
     };
   }, [loadListings]);
 

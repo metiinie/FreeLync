@@ -196,4 +196,55 @@ export class ListingsService {
             }
         };
     }
+
+    async approveListing(id: string, metadata: { approvedBy: string, reason?: string, notes?: string }) {
+        const listing = await this.prisma.listing.findUnique({ where: { id } });
+        if (!listing) throw new NotFoundException('Listing not found');
+
+        const updated = await this.prisma.listing.update({
+            where: { id },
+            data: {
+                status: ListingStatus.approved,
+                verified: true,
+                verification_notes: metadata.notes, // Store notes
+                // We could also store approved_by_id if we add that column to Listing, 
+                // but AuditLog handles the history.
+            },
+        });
+
+        // Send notification logic would go here
+
+        return { data: updated, success: true };
+    }
+
+    async rejectListing(id: string, metadata: { rejectedBy: string, reason: string }) {
+        const listing = await this.prisma.listing.findUnique({ where: { id } });
+        if (!listing) throw new NotFoundException('Listing not found');
+
+        const updated = await this.prisma.listing.update({
+            where: { id },
+            data: {
+                status: ListingStatus.rejected,
+                verification_notes: metadata.reason, // Store rejection reason
+            },
+        });
+
+        return { data: updated, success: true };
+    }
+
+    async deleteListingAsAdmin(id: string, metadata: { deletedBy: string, reason: string }) {
+        const listing = await this.prisma.listing.findUnique({ where: { id } });
+        if (!listing) throw new NotFoundException('Listing not found');
+
+        // We might want soft delete? But requirements say delete.
+        // Audit log captures the data before delete.
+        await this.prisma.listing.delete({ where: { id } });
+
+        return { success: true, message: 'Listing deleted by admin' };
+    }
+
+    async getAllListingsForAdmin(adminId: string, query: any = {}) {
+        // Reuse findAll but ensure admin context is passed
+        return this.findAll(query, { role: 'admin', userId: adminId });
+    }
 }
