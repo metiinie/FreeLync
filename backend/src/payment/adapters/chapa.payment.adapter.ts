@@ -41,7 +41,7 @@ export class ChapaPaymentAdapter implements PaymentAdapter { // External Chapa A
                     phone_number: params.phoneNumber,
                     tx_ref: params.reference,
                     callback_url: params.callbackUrl,
-                    return_url: params.metadata?.returnUrl || 'https://freelync.com/payment/success',
+                    return_url: params.metadata?.returnUrl || `${this.configService.get('FRONTEND_URL') || 'http://localhost:5173'}/payment/success`,
                     customization: {
                         title: 'FreeLync Payment',
                         description: params.metadata?.description || 'Transaction',
