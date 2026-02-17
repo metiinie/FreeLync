@@ -49,6 +49,6 @@ export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(AdminIdentityMiddleware)
-      .forRoutes('admin/*');
+      .forRoutes('admin/:path*');
   }
 }

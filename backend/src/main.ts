@@ -17,14 +17,16 @@ async function bootstrap() {
     origin: (origin, callback) => {
       const allowedOrigins = [
         frontendUrl,
-        'https://free-lync-site.vercel.app', // Explicitly added as requested
+        'https://free-lync-site.vercel.app',
+        'https://freelync-web.vercel.app',
         'http://localhost:5173',
         'http://localhost:3000',
-      ].filter(Boolean);
+      ].filter(Boolean) as string[];
 
-      if (!origin || allowedOrigins.includes(origin)) {
+      if (!origin || allowedOrigins.some(o => origin.startsWith(o))) {
         callback(null, true);
       } else {
+        console.warn(`CORS blocked for origin: ${origin}`);
         callback(new Error('Not allowed by CORS'));
       }
     },
